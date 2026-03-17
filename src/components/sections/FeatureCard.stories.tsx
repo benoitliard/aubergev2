@@ -8,24 +8,16 @@ const meta: Meta<typeof FeatureCard> = {
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
-  },
-  argTypes: {
-    universe: {
-      control: "radio",
-      options: ["auberge", "bistro"],
-      description:
-        "Universe determines the background color and image/text layout direction",
+    docs: {
+      description: {
+        component:
+          "Grande carte vitrine pour L'Auberge (jaune, texte à gauche) ou Le Bistro (violet, texte à droite). Photo masquée en silhouette de mascotte. Deux CTAs : bouton pill charcoal + lien texte souligné.",
+      },
     },
-    title: { control: "text" },
-    description: { control: "text" },
-    image: { control: "text" },
-    imageAlt: { control: "text" },
-    ctaLabel: { control: "text" },
-    ctaHref: { control: "text" },
   },
   decorators: [
     (Story: React.ComponentType) => (
-      <div className="py-12 bg-[var(--color-beige-100)]">
+      <div className="py-14 px-6 bg-[var(--color-beige-100)]">
         <Story />
       </div>
     ),
@@ -41,11 +33,10 @@ export const Auberge: Story = {
     universe: "auberge",
     title: "L'Auberge",
     description:
-      "Nichée au coeur du massif des Belledonne, notre auberge vous accueille dans un cadre authentique et chaleureux. Chambres confortables, cuisine du terroir et panoramas à couper le souffle.",
+      "L'auberge propose une expérience d'hébergement abordable et conviviale. Des chambres privées (individuelles, doubles ou triples), des dortoirs, une suite avec salon, cuisine et salle-de-bain pouvant accueillir jusqu'à 4 personnes, sans oublier nos grands espaces communs offrant une vue imprenable sur le fleuve et les montagnes environnantes.",
     image: "https://picsum.photos/seed/auberge/1200/800",
-    imageAlt: "Vue intérieure de l'auberge Les Balcons",
-    ctaLabel: "Découvrir l'auberge",
-    ctaHref: "#auberge",
+    primaryCta: { label: "Je découvre les chambres", href: "/auberge" },
+    secondaryCta: { label: "Je réserve une chambre", href: "/reservations" },
   },
 };
 
@@ -55,35 +46,32 @@ export const Bistro: Story = {
     universe: "bistro",
     title: "Le Bistro",
     description:
-      "Le Bistro des Balcons vous propose une cuisine généreuse et conviviale, élaborée à partir des produits locaux de la région. Venez vous régaler en famille ou entre amis.",
+      "Ouvert à l'année en soirée le bistro te propose une cuisine savoureuse et réconfortante et plusieurs produits québécois à découvrir en fût ou en bouteilles! C'est aussi un lieu de vie bien ancré dans sa communauté avec une programmation culturelle variée et une foule d'événements spontanés à chaque semaine.",
     image: "https://picsum.photos/seed/bistro/1200/800",
-    imageAlt: "Vue de la salle du Bistro Les Balcons",
-    ctaLabel: "Découvrir le bistro",
-    ctaHref: "#bistro",
+    primaryCta: { label: "Je découvre le bistro", href: "/bistro" },
+    secondaryCta: { label: "Voir le menu", href: "/bistro/menu" },
   },
 };
 
-export const AllVariants: Story = {
-  name: "Both variants — side by side",
+export const BothVariants: Story = {
+  name: "Both — stacked (homepage layout)",
   render: () => (
-    <div className="flex flex-col gap-8 py-8 bg-[var(--color-beige-100)]">
+    <div className="flex flex-col gap-6">
       <FeatureCard
         universe="auberge"
         title="L'Auberge"
-        description="Nichée au coeur du massif des Belledonne, notre auberge vous accueille dans un cadre authentique et chaleureux."
+        description="L'auberge propose une expérience d'hébergement abordable et conviviale. Des chambres privées, des dortoirs, une suite, et nos grands espaces communs offrant une vue imprenable."
         image="https://picsum.photos/seed/auberge/1200/800"
-        imageAlt="Vue intérieure de l'auberge Les Balcons"
-        ctaLabel="Découvrir l'auberge"
-        ctaHref="#auberge"
+        primaryCta={{ label: "Je découvre les chambres", href: "/auberge" }}
+        secondaryCta={{ label: "Je réserve une chambre", href: "/reservations" }}
       />
       <FeatureCard
         universe="bistro"
         title="Le Bistro"
-        description="Le Bistro des Balcons vous propose une cuisine généreuse et conviviale, élaborée à partir des produits locaux de la région."
+        description="Ouvert à l'année en soirée, le bistro te propose une cuisine savoureuse et une programmation culturelle variée."
         image="https://picsum.photos/seed/bistro/1200/800"
-        imageAlt="Vue de la salle du Bistro Les Balcons"
-        ctaLabel="Découvrir le bistro"
-        ctaHref="#bistro"
+        primaryCta={{ label: "Je découvre le bistro", href: "/bistro" }}
+        secondaryCta={{ label: "Voir le menu", href: "/bistro/menu" }}
       />
     </div>
   ),

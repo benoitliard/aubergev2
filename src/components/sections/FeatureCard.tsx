@@ -1,101 +1,185 @@
+/**
+ * FeatureCard — Large showcase card for L'Auberge or Le Bistro.
+ *
+ * Two-panel layout: text on one side, mascot-silhouette-masked photo on the
+ * other. Auberge is yellow (text left), Bistro is purple (text right).
+ *
+ * Usage:
+ * ```tsx
+ * <FeatureCard
+ *   universe="auberge"
+ *   title="L'Auberge"
+ *   description="..."
+ *   image="/images/auberge.jpg"
+ *   primaryCta={{ label: "Je découvre les chambres", href: "/auberge" }}
+ *   secondaryCta={{ label: "Je réserve une chambre", href: "/reservations" }}
+ * />
+ * ```
+ */
+
 import React from "react";
 
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
 export type FeatureCardUniverse = "auberge" | "bistro";
+
+export interface FeatureCardCta {
+  label: string;
+  href: string;
+}
 
 export interface FeatureCardProps {
   title: string;
   description: string;
   image: string;
-  imageAlt: string;
-  ctaLabel: string;
-  ctaHref: string;
+  imageAlt?: string;
+  /** Primary CTA rendered as a charcoal pill button. */
+  primaryCta: FeatureCardCta;
+  /** Secondary CTA rendered as an underlined text link. */
+  secondaryCta?: FeatureCardCta;
   universe: FeatureCardUniverse;
   className?: string;
 }
 
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+
 const universeConfig: Record<
   FeatureCardUniverse,
-  { bgColor: string; focusColor: string; reversed: boolean }
+  { bgColor: string; reversed: boolean }
 > = {
   auberge: {
-    bgColor: "var(--color-green-light)",
-    focusColor: "var(--color-green-dark)",
+    bgColor: "var(--color-yellow-500)",
     reversed: false,
   },
   bistro: {
     bgColor: "var(--color-purple-500)",
-    focusColor: "var(--color-charcoal)",
     reversed: true,
   },
 };
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 export function FeatureCard({
   title,
   description,
   image,
-  imageAlt,
-  ctaLabel,
-  ctaHref,
+  imageAlt = "",
+  primaryCta,
+  secondaryCta,
   universe,
   className = "",
 }: FeatureCardProps) {
   const config = universeConfig[universe];
 
-  const wrapperClasses = [
-    "mx-4 md:mx-24",
-    "rounded-[32px] overflow-hidden",
-    "flex flex-col md:flex-row",
-    config.reversed ? "md:flex-row-reverse" : "",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
     <article
-      className={wrapperClasses}
-      style={{ backgroundColor: config.bgColor }}
       aria-label={title}
+      className={[
+        "overflow-hidden rounded-[32px] lg:rounded-[64px]",
+        "flex flex-col lg:h-[800px]",
+        config.reversed ? "lg:flex-row-reverse" : "lg:flex-row",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ backgroundColor: config.bgColor }}
     >
-      {/* Colored panel with text */}
+      {/* Text panel */}
       <div
-        className="flex flex-col justify-center gap-6 p-6 md:p-12 md:basis-1/2 md:shrink-0"
+        className={[
+          "flex flex-col justify-center gap-8",
+          "p-8 lg:basis-1/2 lg:shrink-0",
+          config.reversed ? "lg:pr-[128px]" : "lg:pl-[128px]",
+        ].join(" ")}
       >
         <h2
-          className="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h2)] text-[var(--color-charcoal)] leading-[1.1] m-0"
+          className={[
+            "font-[family-name:var(--font-title)] font-extrabold",
+            "text-3xl lg:text-[length:var(--text-h2)] leading-[1.1]",
+            "text-[var(--color-charcoal)]",
+          ].join(" ")}
         >
           {title}
         </h2>
 
         <p
-          className="text-[length:var(--text-body-md)] text-[var(--color-charcoal)] leading-relaxed"
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-md)] leading-[1.5]",
+            "text-[var(--color-charcoal)]",
+          ].join(" ")}
         >
           {description}
         </p>
 
-        <a
-          href={ctaHref}
-          className={[
-            "inline-flex items-center self-start",
-            "font-[family-name:var(--font-title)] font-extrabold",
-            "text-[length:var(--text-body-sm)]",
-            "underline underline-offset-4",
-            "transition-opacity duration-200 hover:opacity-70",
-            "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:rounded-sm",
-          ].join(" ")}
-          style={{ color: config.focusColor }}
-        >
-          {ctaLabel}
-        </a>
+        {/* CTAs */}
+        <div className="flex flex-wrap items-center gap-6">
+          <a
+            href={primaryCta.href}
+            className={[
+              "inline-flex items-center justify-center",
+              "rounded-full bg-[var(--color-charcoal)] px-8 py-8",
+              "font-[family-name:var(--font-title)] font-extrabold",
+              "text-[length:var(--text-body-sm)] leading-[1.5]",
+              "text-[var(--color-beige-100)]",
+              "transition-opacity hover:opacity-80",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
+            ].join(" ")}
+          >
+            {primaryCta.label}
+          </a>
+
+          {secondaryCta && (
+            <a
+              href={secondaryCta.href}
+              className={[
+                "font-[family-name:var(--font-title)] font-extrabold",
+                "text-[length:var(--text-body-sm)] leading-[1.5]",
+                "text-[var(--color-charcoal)]",
+                "underline",
+                "transition-opacity hover:opacity-70",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
+              ].join(" ")}
+            >
+              {secondaryCta.label}
+            </a>
+          )}
+        </div>
       </div>
 
-      {/* Image panel */}
-      <div className="relative md:basis-1/2 md:shrink-0 aspect-[4/3] md:aspect-auto min-h-[260px]">
-        <img
-          src={image}
-          alt={imageAlt}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      {/* Photo panel with mascot silhouette mask */}
+      <div
+        className={[
+          "relative lg:basis-1/2 lg:shrink-0",
+          "min-h-[300px] lg:min-h-0",
+          "flex items-center justify-center overflow-hidden",
+        ].join(" ")}
+      >
+        <div
+          className="relative h-full w-full"
+          style={{
+            WebkitMaskImage: "url(/mascot-silhouette.svg)",
+            maskImage: "url(/mascot-silhouette.svg)",
+            WebkitMaskSize: "contain",
+            maskSize: "contain" as string,
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat" as string,
+            WebkitMaskPosition: "center",
+            maskPosition: "center",
+          }}
+        >
+          <img
+            src={image}
+            alt={imageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
       </div>
     </article>
   );
