@@ -31,7 +31,7 @@
   /* === Typography === */
   --font-display: "Extra Chunk Please", "Bricolage Grotesque", sans-serif;
   --font-title: "Bricolage Grotesque", sans-serif;
-  --font-body: "Bricolage Grotesque 24pt SemiCondensed", sans-serif;
+  --font-body: "Bricolage Grotesque", sans-serif;
 
   /* Font sizes */
   --text-h1: 128px;
@@ -58,6 +58,8 @@
     background-color: var(--color-beige-100);
     font-size: var(--text-body-md);
     line-height: 1.5;
+    /* Body uses SemiCondensed (wdth 87.5) at 24pt optical size */
+    font-variation-settings: "opsz" 24, "wdth" 87.5;
   }
 
   h1,
@@ -68,6 +70,8 @@
   h6 {
     font-family: var(--font-title);
     font-weight: 800;
+    /* Titles use default width (100) at 14pt optical size */
+    font-variation-settings: "opsz" 14, "wdth" 100;
   }
 
   h1 {
