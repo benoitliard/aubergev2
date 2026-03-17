@@ -1,28 +1,13 @@
 import { defineField, defineType } from "sanity";
+import { localizedString, localizedText } from "./helpers/localizedFields";
 
 export const menuItemType = defineType({
   name: "menuItem",
   title: "Item du menu",
   type: "object",
   fields: [
-    defineField({
-      name: "name",
-      title: "Nom",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "string" },
-        { name: "en", title: "English", type: "string" },
-      ],
-    }),
-    defineField({
-      name: "description",
-      title: "Description",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "text", rows: 2 },
-        { name: "en", title: "English", type: "text", rows: 2 },
-      ],
-    }),
+    localizedString("name", "Nom", { required: true }),
+    localizedText("description", "Description", { rows: 2 }),
     defineField({
       name: "price",
       title: "Prix",
@@ -30,21 +15,27 @@ export const menuItemType = defineType({
     }),
     defineField({
       name: "allergens",
-      title: "Allergènes",
+      title: "Allergènes / Régimes",
       type: "array",
       of: [{ type: "string" }],
       options: {
         list: [
-          { title: "Gluten", value: "gluten" },
-          { title: "Lactose", value: "lactose" },
-          { title: "Noix", value: "noix" },
-          { title: "Fruits de mer", value: "fruits-de-mer" },
-          { title: "Végétarien", value: "vegetarien" },
-          { title: "Végan", value: "vegan" },
+          { title: "🌾 Gluten", value: "gluten" },
+          { title: "🥛 Lactose", value: "lactose" },
+          { title: "🥜 Noix", value: "noix" },
+          { title: "🦐 Fruits de mer", value: "fruits-de-mer" },
+          { title: "🥬 Végétarien", value: "vegetarien" },
+          { title: "🌱 Végan", value: "vegan" },
         ],
       },
     }),
   ],
+  preview: {
+    select: { title: "name.fr", price: "price" },
+    prepare({ title, price }) {
+      return { title, subtitle: price || "" };
+    },
+  },
 });
 
 export const bistroMenuType = defineType({
@@ -52,15 +43,7 @@ export const bistroMenuType = defineType({
   title: "Menu du Bistro",
   type: "document",
   fields: [
-    defineField({
-      name: "category",
-      title: "Catégorie",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "string" },
-        { name: "en", title: "English", type: "string" },
-      ],
-    }),
+    localizedString("category", "Catégorie", { required: true }),
     defineField({
       name: "order",
       title: "Ordre d'affichage",
@@ -73,7 +56,20 @@ export const bistroMenuType = defineType({
       of: [{ type: "menuItem" }],
     }),
   ],
+  orderings: [
+    {
+      title: "Ordre d'affichage",
+      name: "orderAsc",
+      by: [{ field: "order", direction: "asc" }],
+    },
+  ],
   preview: {
-    select: { title: "category.fr" },
+    select: { title: "category.fr", items: "items" },
+    prepare({ title, items }) {
+      return {
+        title,
+        subtitle: items ? `${items.length} item(s)` : "Vide",
+      };
+    },
   },
 });

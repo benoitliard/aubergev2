@@ -1,19 +1,12 @@
 import { defineField, defineType } from "sanity";
+import { localizedString } from "./helpers/localizedFields";
 
 export const galleryType = defineType({
   name: "gallery",
   title: "Galerie",
   type: "document",
   fields: [
-    defineField({
-      name: "title",
-      title: "Titre",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "string" },
-        { name: "en", title: "English", type: "string" },
-      ],
-    }),
+    localizedString("title", "Titre", { required: true }),
     defineField({
       name: "images",
       title: "Images",
@@ -28,8 +21,8 @@ export const galleryType = defineType({
               title: "Texte alternatif",
               type: "object",
               fields: [
-                { name: "fr", title: "Français", type: "string" },
-                { name: "en", title: "English", type: "string" },
+                { name: "fr", title: "🇫🇷 Français", type: "string" },
+                { name: "en", title: "🇬🇧 English", type: "string" },
               ],
             },
           ],

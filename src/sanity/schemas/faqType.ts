@@ -1,32 +1,22 @@
 import { defineField, defineType } from "sanity";
+import { localizedString, localizedText } from "./helpers/localizedFields";
 
 export const faqType = defineType({
   name: "faq",
   title: "FAQ",
   type: "document",
+  groups: [
+    { name: "content", title: "📝 Contenu", default: true },
+    { name: "settings", title: "⚙️ Paramètres" },
+  ],
   fields: [
-    defineField({
-      name: "question",
-      title: "Question",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "string" },
-        { name: "en", title: "English", type: "string" },
-      ],
-    }),
-    defineField({
-      name: "answer",
-      title: "Réponse",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "text" },
-        { name: "en", title: "English", type: "text" },
-      ],
-    }),
+    { ...localizedString("question", "Question", { required: true }), group: "content" },
+    { ...localizedText("answer", "Réponse", { required: true }), group: "content" },
     defineField({
       name: "category",
       title: "Catégorie",
       type: "string",
+      group: "settings",
       options: {
         list: [
           { title: "Réservation", value: "reservation" },
@@ -41,7 +31,15 @@ export const faqType = defineType({
       name: "order",
       title: "Ordre d'affichage",
       type: "number",
+      group: "settings",
     }),
+  ],
+  orderings: [
+    {
+      title: "Ordre d'affichage",
+      name: "orderAsc",
+      by: [{ field: "order", direction: "asc" }],
+    },
   ],
   preview: {
     select: { title: "question.fr", subtitle: "category" },

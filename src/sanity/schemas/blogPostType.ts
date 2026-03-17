@@ -1,40 +1,42 @@
 import { defineField, defineType } from "sanity";
+import { localizedString, localizedRichText } from "./helpers/localizedFields";
 
 export const blogPostType = defineType({
   name: "blogPost",
   title: "Article de blogue",
   type: "document",
+  groups: [
+    { name: "content", title: "📝 Contenu", default: true },
+    { name: "settings", title: "⚙️ Paramètres" },
+  ],
   fields: [
-    defineField({
-      name: "title",
-      title: "Titre",
-      type: "object",
-      fields: [
-        { name: "fr", title: "Français", type: "string" },
-        { name: "en", title: "English", type: "string" },
-      ],
-    }),
+    { ...localizedString("title", "Titre", { required: true }), group: "content" },
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Slug (URL)",
       type: "slug",
+      group: "settings",
       options: { source: "title.fr", maxLength: 96 },
-    }),
-    defineField({
-      name: "publishedAt",
-      title: "Date de publication",
-      type: "datetime",
     }),
     defineField({
       name: "mainImage",
       title: "Image principale",
       type: "image",
+      group: "content",
       options: { hotspot: true },
+    }),
+    { ...localizedRichText("body", "Contenu de l'article"), group: "content" },
+    defineField({
+      name: "publishedAt",
+      title: "Date de publication",
+      type: "datetime",
+      group: "settings",
     }),
     defineField({
       name: "category",
       title: "Catégorie",
       type: "string",
+      group: "settings",
       options: {
         list: [
           { title: "Actualités", value: "actualites" },
@@ -43,25 +45,6 @@ export const blogPostType = defineType({
           { title: "Charlevoix", value: "charlevoix" },
         ],
       },
-    }),
-    defineField({
-      name: "body",
-      title: "Contenu",
-      type: "object",
-      fields: [
-        {
-          name: "fr",
-          title: "Français",
-          type: "array",
-          of: [{ type: "block" }, { type: "image" }],
-        },
-        {
-          name: "en",
-          title: "English",
-          type: "array",
-          of: [{ type: "block" }, { type: "image" }],
-        },
-      ],
     }),
   ],
   preview: {
