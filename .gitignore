@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+.astro/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Storybook
+storybook-static/
+
+# Debug
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Sanity
+.sanity/
+
+# Cloudflare
+.wrangler/
+
+# Chromatic
+chromatic-*.xml
