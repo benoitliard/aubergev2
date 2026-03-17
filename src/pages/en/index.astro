@@ -1,5 +1,6 @@
 ---
 export const prerender = true;
+import { sanityClient } from "sanity:client";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 // Layout
@@ -13,6 +14,29 @@ import PhotoGallery from "../../components/sections/PhotoGallery";
 import { FeatureCard } from "../../components/sections/FeatureCard";
 import { ServiceGrid } from "../../components/sections/ServiceGrid";
 import { TestimonialCarousel } from "../../components/sections/TestimonialCarousel";
+
+// ---------------------------------------------------------------------------
+// Sanity data
+// ---------------------------------------------------------------------------
+
+const CATEGORY_MAP = {
+  auberge: { label: "The Inn", color: "var(--color-yellow-500)" },
+  bistro: { label: "The Bistro", color: "var(--color-purple-500)" },
+} as const;
+
+const sanityTestimonials = await sanityClient.fetch(
+  `*[_type == "testimonial" && featured == true] | order(_createdAt asc) {
+    name,
+    "text": text.en,
+    category
+  }`
+);
+
+const TESTIMONIALS_FROM_SANITY = sanityTestimonials.map((t: any) => ({
+  category: CATEGORY_MAP[t.category as keyof typeof CATEGORY_MAP] || CATEGORY_MAP.auberge,
+  text: t.text,
+  author: t.name,
+}));
 import Newsletter from "../../components/sections/Newsletter";
 import { PartnersBar } from "../../components/sections/PartnersBar";
 
@@ -75,7 +99,8 @@ const SERVICES = [
   },
 ];
 
-const TESTIMONIALS = [
+// Fallback if Sanity is empty
+const TESTIMONIALS_FALLBACK = [
   {
     category: { label: "The Inn", color: "var(--color-yellow-500)" },
     text: "\"This is a fantastic place! I had a spacious, bright private room. Super clean bathroom and shower, everything is spotless. Huge well-equipped kitchen. Balconies everywhere. Stunning view of a huge garden. Can't wait to go back.\"",
@@ -86,12 +111,9 @@ const TESTIMONIALS = [
     text: "\"Great spot with an awesome vibe! I loved the 5@7 with a DJ. Nice menu, simple but with good veggie options. Great drink selection. Super experience.\"",
     author: "Cécile L.",
   },
-  {
-    category: { label: "The Inn", color: "var(--color-yellow-500)" },
-    text: "\"Great experience at the auberge des balcons. I went with my 2 teens and we all loved it! The staff is very welcoming and helpful, it's very clean, everything you could need is there. We rented bikes from there, it's close to everything.\"",
-    author: "Mercedes G.",
-  },
 ];
+
+const TESTIMONIALS = TESTIMONIALS_FROM_SANITY.length > 0 ? TESTIMONIALS_FROM_SANITY : TESTIMONIALS_FALLBACK;
 
 const PARTNERS = [
   { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
