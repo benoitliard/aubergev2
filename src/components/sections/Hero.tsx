@@ -37,34 +37,36 @@ export interface HeroProps {
  * Uses fill-rule="evenodd" so the inner mascot path acts as a hole.
  */
 function ArchMask() {
+  // The outer rectangle is drawn clockwise and the inner mascot path is also
+  // clockwise. With fill-rule="evenodd", the overlapping region (the mascot
+  // shape) becomes transparent, revealing the photo underneath.
+  const outerRect = "M0,-5 H161 V85 H0 Z";
+  const mascotCutout = [
+    "M160.439,40.002 C160.996,29.591 157.327,18.988 149.419,11.081",
+    "C134.645,-3.693 110.47,-3.693 95.696,11.081",
+    "L80.189,26.588 L64.944,11.343",
+    "C50.619,-2.98 27.493,-3.862 12.433,9.683",
+    "C5.318,16.081 1.239,24.531 0.171,33.285",
+    "H0.164 V33.34",
+    "C-0.134,35.799 0.049,64.51 0.131,75.641",
+    "C0.149,78.06 2.114,80.01 4.536,80.01",
+    "H156.096",
+    "C158.528,80.01 160.501,78.038 160.501,75.608",
+    "V40.007 H160.441 L160.439,40.002 Z",
+  ].join(" ");
+
   return (
     <svg
       aria-hidden="true"
-      className="absolute inset-0 h-full w-full"
-      viewBox="0 -4 160.501 88"
+      className="absolute inset-0 z-10 h-full w-full pointer-events-none"
+      viewBox="0 -5 161 90"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fillRule="evenodd"
-        fill="var(--color-green-dark, #056131)"
-        d={[
-          // Outer rectangle (green frame)
-          "M0 -4 h160.501 v88 h-160.501 z",
-          // Inner mascot silhouette (cutout)
-          "M160.439 40.002C160.996 29.5907 157.327 18.9884 149.419 11.0805",
-          "C134.645 -3.69349 110.47 -3.69349 95.6963 11.0805",
-          "L80.1893 26.5875",
-          "L64.9444 11.3426",
-          "C50.6191 -2.98045 27.493 -3.86231 12.4325 9.68328",
-          "C5.31757 16.0807 1.23924 24.5306 0.170783 33.2848",
-          "H0.164119V33.3403",
-          "C-0.133538 35.7993 0.0486102 64.5098 0.130799 75.6408",
-          "C0.148569 78.0598 2.11443 80.0102 4.53567 80.0102",
-          "H156.096",
-          "C158.528 80.0102 160.501 78.0376 160.501 75.6075",
-          "V40.0065H160.441L160.439 40.002Z",
-        ].join(" ")}
+        fill="#056131"
+        d={`${outerRect} ${mascotCutout}`}
       />
     </svg>
   );
