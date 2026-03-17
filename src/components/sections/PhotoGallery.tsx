@@ -1,38 +1,32 @@
 /**
- * PhotoGallery — Three-photo grid section for Les Balcons pages.
+ * PhotoGallery — Horizontal photo carousel with mixed image shapes.
  *
- * The middle image uses a portrait aspect ratio (3/4) while the outer two
- * use a landscape ratio (4/3), creating the Figma-specified visual rhythm.
+ * Shows 3 visible photos at a time:
+ * - Position 0 & 2: rectangular with rounded-[32px] corners
+ * - Position 1: arch-top shape (pill top, rounded bottom)
+ *
+ * Navigation with arrow buttons and "1 / N" counter, bottom-right aligned.
  *
  * Usage:
  * ```tsx
- * import PhotoGallery from '@/components/sections/PhotoGallery';
- *
- * <PhotoGallery
- *   images={[
- *     { src: '/images/room.jpg',    alt: 'Chambre avec vue sur la vallée' },
- *     { src: '/images/bistro.jpg',  alt: 'Salle du Bistro culturel' },
- *     { src: '/images/garden.jpg',  alt: 'Terrasse et jardins' },
- *   ]}
- * />
+ * <PhotoGallery images={[{ src: '/img/1.jpg', alt: 'Room' }, ...]} />
  * ```
  */
+
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowButton } from "../ui/ArrowButton";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 export interface GalleryImage {
-  /** Image URL. */
   src: string;
-  /** Descriptive alt text for accessibility. */
   alt: string;
 }
 
 export interface PhotoGalleryProps {
-  /** Exactly 3 images. Extra images are silently ignored. */
   images: GalleryImage[];
-  /** Optional extra classes applied to the outer section element. */
   className?: string;
 }
 
@@ -40,12 +34,20 @@ export interface PhotoGalleryProps {
 // Helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Returns the aspect-ratio class for each grid position.
- * Position 1 (middle) uses portrait 3/4; positions 0 and 2 use landscape 4/3.
- */
-function aspectRatioClass(index: number): string {
-  return index === 1 ? "aspect-[3/4]" : "aspect-[4/3]";
+/** Returns border-radius classes based on position within the visible set of 3 */
+function imageClasses(indexInGroup: number): string {
+  if (indexInGroup === 1) {
+    // Middle image: arch/pill top, rounded bottom
+    return "rounded-t-[999px] rounded-b-[40px]";
+  }
+  // Outer images: uniform rounded
+  return "rounded-[32px]";
+}
+
+/** Returns width class based on position (middle is narrower) */
+function widthClass(indexInGroup: number): string {
+  if (indexInGroup === 1) return "w-[35vw] desktop:w-[371px]";
+  return "w-[65vw] desktop:w-[702px]";
 }
 
 // ---------------------------------------------------------------------------
@@ -53,58 +55,108 @@ function aspectRatioClass(index: number): string {
 // ---------------------------------------------------------------------------
 
 export default function PhotoGallery({ images, className = "" }: PhotoGalleryProps) {
-  // Limit to 3 images per the design spec
-  const visibleImages = images.slice(0, 3);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const total = images.length;
+  const isAtStart = currentIndex === 0;
+  const isAtEnd = currentIndex >= total - 1;
+
+  const recalcOffset = useCallback(() => {
+    if (!trackRef.current) return;
+    const firstItem = trackRef.current.querySelector<HTMLElement>("[data-photo]");
+    if (!firstItem) return;
+    const gap = 24;
+    const itemWidth = firstItem.offsetWidth;
+    setOffset(currentIndex * (itemWidth + gap));
+  }, [currentIndex]);
+
+  useEffect(() => {
+    recalcOffset();
+  }, [recalcOffset]);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(() => recalcOffset());
+    if (trackRef.current) observer.observe(trackRef.current);
+    return () => observer.disconnect();
+  }, [recalcOffset]);
+
+  function handlePrev() {
+    if (!isAtStart) setCurrentIndex((prev) => prev - 1);
+  }
+
+  function handleNext() {
+    if (!isAtEnd) setCurrentIndex((prev) => prev + 1);
+  }
 
   return (
     <section
       aria-label="Galerie de photos"
       className={[
-        // Horizontal padding: 16px mobile, 96px desktop
-        "px-4 desktop:px-24",
-        // Vertical padding
-        "py-8 desktop:py-12",
+        "bg-[var(--color-beige-100)] overflow-hidden",
+        "px-4 py-8 desktop:px-6 desktop:py-14",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      {/*
-       * Desktop: 3-column grid, images align at their tops so the taller
-       * portrait middle image naturally extends below the landscape ones.
-       * Mobile: stack vertically (flex-col).
-       * The outer container scrolls horizontally on narrow viewports when
-       * set to row layout — we go with vertical stack for simplicity and
-       * full accessibility (no overflow hidden on content).
-       */}
-      <ul
-        role="list"
-        className={[
-          "flex flex-col gap-4",
-          "desktop:flex-row desktop:items-start",
-        ].join(" ")}
-      >
-        {visibleImages.map((image, index) => (
-          <li
-            key={image.src}
-            className="flex-1"
-          >
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              decoding="async"
+      {/* Photos track */}
+      <div ref={trackRef} className="overflow-hidden">
+        <div
+          className="flex gap-6 transition-transform duration-300 ease-in-out"
+          style={{ transform: `translateX(-${offset}px)` }}
+          aria-live="polite"
+        >
+          {images.map((image, index) => (
+            <div
+              key={image.src}
+              data-photo
               className={[
-                "w-full object-cover",
-                // Rounded corners: 16px (rounded-2xl)
-                "rounded-2xl",
-                // Aspect ratio per position
-                aspectRatioClass(index),
+                "h-[300px] desktop:h-[528px] shrink-0 overflow-hidden",
+                widthClass(index % 3),
+                imageClasses(index % 3),
               ].join(" ")}
-            />
-          </li>
-        ))}
-      </ul>
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Navigation — bottom right */}
+      <div className="mt-10 flex items-center justify-end gap-8 px-8">
+        <span
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-sm)] leading-[1.5]",
+            "text-[var(--color-charcoal)]",
+          ].join(" ")}
+        >
+          {currentIndex + 1} / {total}
+        </span>
+
+        <div className="flex items-center gap-4">
+          <ArrowButton
+            direction="left"
+            state={isAtStart ? "disabled" : "default"}
+            onClick={handlePrev}
+            aria-label="Photo précédente"
+          />
+          <ArrowButton
+            direction="right"
+            state={isAtEnd ? "disabled" : "default"}
+            onClick={handleNext}
+            aria-label="Photo suivante"
+          />
+        </div>
+      </div>
     </section>
   );
 }

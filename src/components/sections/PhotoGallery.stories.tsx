@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import PhotoGallery from "./PhotoGallery";
 
-// ---------------------------------------------------------------------------
-// Meta
-// ---------------------------------------------------------------------------
-
 const meta: Meta<typeof PhotoGallery> = {
   title: "Sections/PhotoGallery",
   component: PhotoGallery,
@@ -14,103 +10,34 @@ const meta: Meta<typeof PhotoGallery> = {
     docs: {
       description: {
         component:
-          "Grille de 3 photos côte à côte. L'image du milieu utilise un ratio portrait (3/4) tandis que les images latérales utilisent un ratio paysage (4/3), conformément au design Figma. Sur mobile, les images s'empilent verticalement.",
+          "Carrousel horizontal de photos. Images rectangulaires (positions 0, 2) avec rounded-[32px] et image en arche (position 1) avec pill-top. Navigation compteur + flèches en bas à droite.",
       },
-    },
-  },
-  argTypes: {
-    images: {
-      description:
-        "Tableau de 3 images ({ src, alt }). Les images supplémentaires sont ignorées.",
-    },
-    className: {
-      control: "text",
-      description: "Classes Tailwind additionnelles appliquées au conteneur.",
     },
   },
 };
 
 export default meta;
-
 type Story = StoryObj<typeof PhotoGallery>;
 
-// ---------------------------------------------------------------------------
-// Seed helpers (stable picsum seeds for consistent previews)
-// ---------------------------------------------------------------------------
+const IMAGES = [
+  { src: "https://picsum.photos/seed/balcons-g1/1400/1056", alt: "Spectacle au Bistro" },
+  { src: "https://picsum.photos/seed/balcons-g2/742/1056", alt: "L'auberge en automne" },
+  { src: "https://picsum.photos/seed/balcons-g3/1400/1056", alt: "Chambre dortoir" },
+  { src: "https://picsum.photos/seed/balcons-g4/1400/1056", alt: "Terrasse été" },
+  { src: "https://picsum.photos/seed/balcons-g5/742/1056", alt: "Vue sur le fleuve" },
+  { src: "https://picsum.photos/seed/balcons-g6/1400/1056", alt: "Cuisine commune" },
+];
 
-const LANDSCAPE_1 = "https://picsum.photos/seed/balcons-g1/800/600";
-const PORTRAIT_MID = "https://picsum.photos/seed/balcons-g2/600/800";
-const LANDSCAPE_2 = "https://picsum.photos/seed/balcons-g3/800/600";
-
-// ---------------------------------------------------------------------------
-// Stories
-// ---------------------------------------------------------------------------
-
-/**
- * Affichage par défaut — 3 photos représentant l'auberge, le bistro et les extérieurs.
- */
 export const Default: Story = {
-  name: "Default",
+  name: "Default — 6 photos",
   args: {
-    images: [
-      { src: LANDSCAPE_1, alt: "Chambre avec vue sur la vallée de Charlevoix" },
-      { src: PORTRAIT_MID, alt: "Salle à manger du Bistro culturel" },
-      { src: LANDSCAPE_2, alt: "Terrasse et jardins en été" },
-    ],
+    images: IMAGES,
   },
 };
 
-/**
- * Image unique — vérifie la robustesse lorsque moins de 3 images sont fournies.
- */
-export const SingleImage: Story = {
-  name: "Image unique",
+export const ThreePhotos: Story = {
+  name: "3 photos",
   args: {
-    images: [
-      { src: LANDSCAPE_1, alt: "Vue panoramique depuis les Balcons" },
-    ],
-  },
-};
-
-/**
- * Deux images — vérification intermédiaire (2 colonnes sur desktop).
- */
-export const TwoImages: Story = {
-  name: "Deux images",
-  args: {
-    images: [
-      { src: LANDSCAPE_1, alt: "Chambre avec vue sur la vallée de Charlevoix" },
-      { src: PORTRAIT_MID, alt: "Salle à manger du Bistro culturel" },
-    ],
-  },
-};
-
-/**
- * Quatre images fournies — seules les 3 premières sont affichées.
- */
-export const FourImagesProvided: Story = {
-  name: "4 images (3 affichées)",
-  args: {
-    images: [
-      { src: LANDSCAPE_1, alt: "Chambre avec vue sur la vallée de Charlevoix" },
-      { src: PORTRAIT_MID, alt: "Salle à manger du Bistro culturel" },
-      { src: LANDSCAPE_2, alt: "Terrasse et jardins en été" },
-      { src: "https://picsum.photos/seed/balcons-g4/800/600", alt: "Image ignorée" },
-    ],
-  },
-};
-
-/**
- * Avec className personnalisé — illustre l'ajout d'un fond de couleur via className.
- */
-export const WithCustomBackground: Story = {
-  name: "Fond personnalisé",
-  args: {
-    images: [
-      { src: LANDSCAPE_1, alt: "Chambre avec vue sur la vallée de Charlevoix" },
-      { src: PORTRAIT_MID, alt: "Salle à manger du Bistro culturel" },
-      { src: LANDSCAPE_2, alt: "Terrasse et jardins en été" },
-    ],
-    className: "bg-[var(--color-charcoal)] py-16",
+    images: IMAGES.slice(0, 3),
   },
 };

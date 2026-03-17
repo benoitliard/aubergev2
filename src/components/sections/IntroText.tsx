@@ -34,10 +34,7 @@ export default function IntroText({ text, className = "" }: IntroTextProps) {
   return (
     <section
       className={[
-        // Vertical padding: 64px top/bottom on both mobile and desktop
-        "py-16",
-        // Horizontal padding: 16px mobile, 96px desktop
-        "px-4 desktop:px-24",
+        "px-4 py-12 desktop:p-24",
         className,
       ]
         .filter(Boolean)
@@ -45,11 +42,11 @@ export default function IntroText({ text, className = "" }: IntroTextProps) {
     >
       <p
         className={[
-          "mx-auto max-w-[900px]",
-          "font-[family-name:var(--font-body)]",
-          "text-[length:var(--text-body-md)]",
+          "mx-auto max-w-[1102px]",
+          "font-[family-name:var(--font-body)] font-semibold",
+          "text-[length:var(--text-body-lg)] desktop:text-[length:var(--text-body-xl)]",
           "text-[var(--color-charcoal)]",
-          "leading-[1.5]",
+          "leading-[1.3]",
           "text-center",
         ].join(" ")}
       >
