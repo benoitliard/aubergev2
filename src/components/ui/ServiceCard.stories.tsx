@@ -8,28 +8,16 @@ const meta: Meta<typeof ServiceCard> = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-  },
-  argTypes: {
-    title: {
-      control: "text",
-      description: "Card title displayed at the bottom",
-    },
-    description: {
-      control: "text",
-      description: "Optional short description below the title",
-    },
-    image: {
-      control: "text",
-      description: "URL of the background image",
-    },
-    href: {
-      control: "text",
-      description: "Link destination",
+    docs: {
+      description: {
+        component:
+          "Carte service vert clair avec photo arrondie, titre h5, description, et CTA (lien texte ou bouton pill). Fond vert-light (#d4df90), coins arrondis 48px.",
+      },
     },
   },
   decorators: [
     (Story: React.ComponentType) => (
-      <div style={{ width: 320 }}>
+      <div style={{ width: 490 }}>
         <Story />
       </div>
     ),
@@ -39,31 +27,27 @@ const meta: Meta<typeof ServiceCard> = {
 export default meta;
 type Story = StoryObj<typeof ServiceCard>;
 
-export const Default: Story = {
-  name: "Default (title only)",
-  args: {
-    title: "Groupes & affaires",
-    image: "https://picsum.photos/seed/groups/640/640",
-    href: "#groupes",
-  },
-};
-
-export const WithDescription: Story = {
-  name: "With description",
+export const TextLink: Story = {
+  name: "With text link CTA",
   args: {
     title: "Coworking",
-    description: "Espaces de travail flexibles au coeur des Alpes",
-    image: "https://picsum.photos/seed/cowork/640/640",
-    href: "#coworking",
+    description: "Espace coworking ouvert tous les jours de 9h à 17h.",
+    image: "https://picsum.photos/seed/cowork/980/700",
+    href: "/coworking",
+    ctaLabel: "En savoir plus",
+    ctaVariant: "link",
   },
 };
 
-export const Evenements: Story = {
-  name: "Événements",
+export const ButtonCTA: Story = {
+  name: "With button CTA",
   args: {
     title: "Événements",
-    description: "Séminaires, mariages, célébrations",
-    image: "https://picsum.photos/seed/events/640/640",
-    href: "#evenements",
+    description:
+      "Lieu de vie bien ancré dans sa communauté, le Bistro te propose une programmation culturelle variée et une foule d'événements spontanés.",
+    image: "https://picsum.photos/seed/events/980/700",
+    href: "/evenements",
+    ctaLabel: "Découvrir la programmation",
+    ctaVariant: "button",
   },
 };

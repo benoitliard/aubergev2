@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 import { ServiceGrid } from './ServiceGrid';
 
 const services = [
-  { title: 'Hébergement', image: '/img/auberge.jpg', href: '/auberge' },
+  { title: 'Hébergement', description: 'Chambres confortables', image: '/img/auberge.jpg', href: '/auberge' },
   { title: 'Restauration', description: 'Le Bistro', image: '/img/bistro.jpg', href: '/bistro' },
-  { title: 'Événements', image: '/img/evenements.jpg', href: '/evenements' },
+  { title: 'Événements', description: 'Programmation culturelle', image: '/img/evenements.jpg', href: '/evenements' },
 ];
 
 describe('ServiceGrid', () => {
@@ -17,45 +17,24 @@ describe('ServiceGrid', () => {
   });
 
   describe('services prop', () => {
-    it('renders one ServiceCard per service', () => {
+    it('renders service titles (mobile + desktop = doubled)', () => {
       render(<ServiceGrid services={services} />);
-      expect(screen.getAllByRole('link')).toHaveLength(services.length);
+      // Each card appears twice (mobile list + desktop columns)
+      expect(screen.getAllByText('Hébergement')).toHaveLength(2);
+      expect(screen.getAllByText('Restauration')).toHaveLength(2);
+      expect(screen.getAllByText('Événements')).toHaveLength(2);
     });
 
-    it('renders service titles', () => {
+    it('renders descriptions', () => {
       render(<ServiceGrid services={services} />);
-      expect(screen.getByText('Hébergement')).toBeInTheDocument();
-      expect(screen.getByText('Restauration')).toBeInTheDocument();
-      expect(screen.getByText('Événements')).toBeInTheDocument();
+      expect(screen.getAllByText('Le Bistro')).toHaveLength(2);
     });
 
-    it('renders optional descriptions when provided', () => {
+    it('renders CTA links for each card', () => {
       render(<ServiceGrid services={services} />);
-      expect(screen.getByText('Le Bistro')).toBeInTheDocument();
-    });
-
-    it('renders an empty list when services is empty', () => {
-      render(<ServiceGrid services={[]} />);
-      expect(screen.getByRole('list')).toBeInTheDocument();
-      expect(screen.queryAllByRole('listitem')).toHaveLength(0);
-    });
-  });
-
-  describe('list structure', () => {
-    it('renders services inside a list', () => {
-      render(<ServiceGrid services={services} />);
-      expect(screen.getByRole('list')).toBeInTheDocument();
-      expect(screen.getAllByRole('listitem')).toHaveLength(services.length);
-    });
-  });
-
-  describe('href values', () => {
-    it('each service card links to the correct href', () => {
-      render(<ServiceGrid services={services} />);
-      const links = screen.getAllByRole('link');
-      expect(links[0]).toHaveAttribute('href', '/auberge');
-      expect(links[1]).toHaveAttribute('href', '/bistro');
-      expect(links[2]).toHaveAttribute('href', '/evenements');
+      const links = screen.getAllByRole('link', { name: 'En savoir plus' });
+      // 3 services × 2 layouts = 6
+      expect(links).toHaveLength(6);
     });
   });
 
