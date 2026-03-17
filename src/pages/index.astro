@@ -1,11 +1,174 @@
 ---
 export const prerender = true;
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Layout
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+
+// Sections
+import Hero from "../components/sections/Hero";
+import IntroText from "../components/sections/IntroText";
+import PhotoGallery from "../components/sections/PhotoGallery";
+import { FeatureCard } from "../components/sections/FeatureCard";
+import { ServiceGrid } from "../components/sections/ServiceGrid";
+import { TestimonialCarousel } from "../components/sections/TestimonialCarousel";
+import Newsletter from "../components/sections/Newsletter";
+import { PartnersBar } from "../components/sections/PartnersBar";
+
+// UI
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+
+// ---------------------------------------------------------------------------
+// Static data
+// ---------------------------------------------------------------------------
+
+const GALLERY_IMAGES = [
+  { src: "/images/gallery-1.jpg", alt: "Spectacle au Bistro culturel" },
+  { src: "/images/gallery-2.jpg", alt: "L'auberge Les Balcons en automne" },
+  { src: "/images/gallery-3.jpg", alt: "Chambre dortoir confortable" },
+  { src: "/images/gallery-4.jpg", alt: "Terrasse en été" },
+  { src: "/images/gallery-5.jpg", alt: "Vue sur le fleuve" },
+  { src: "/images/gallery-6.jpg", alt: "Cuisine commune" },
+];
+
+const SERVICES = [
+  {
+    title: "Groupes et affaires",
+    description: "Conférences, réunions, retraites d'équipe ou activités de team building : une variété d'options pour un service clé en main au cœur de Baie-Saint-Paul.",
+    image: "/images/service-groupes.jpg",
+    href: "/groupes",
+  },
+  {
+    title: "Coworking",
+    description: "Espace coworking ouvert tous les jours de 9h à 17h.",
+    image: "/images/service-coworking.jpg",
+    href: "/coworking",
+  },
+  {
+    title: "Événements",
+    description: "Lieu de vie bien ancré dans sa communauté, le Bistro te propose une programmation culturelle variée et une foule d'événements spontanés.",
+    image: "/images/service-evenements.jpg",
+    href: "/evenements",
+    ctaLabel: "Découvrir la programmation",
+    ctaVariant: "button" as const,
+  },
+  {
+    title: "Boutique et friperie",
+    description: "Viens faire un tour à notre boutique à l'accueil. Tu trouveras de tout : une friperie de vêtements, de l'art, du pain de la boulangerie d'à côté et bien plus !",
+    image: "/images/service-boutique.jpg",
+    href: "/boutique",
+  },
+  {
+    title: "Promotion et offres partenaires",
+    description: "On te fait économiser grâce à nos partenariats locaux et à nos promos sur l'hébergement.",
+    image: "/images/service-promos.jpg",
+    href: "/offres-partenaires",
+    ctaLabel: "Voir les offres",
+  },
+  {
+    title: "Quoi faire ?",
+    description: "Que ce soit aux Balcons, dans Baie-Saint-Paul ou dans Charlevoix : détente, plein air, agrotourisme, art et culture… une foule d'idées pour un séjour inoubliable!",
+    image: "/images/service-quoifaire.jpg",
+    href: "/quoi-faire",
+    ctaLabel: "Voir les suggestions",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    category: { label: "L'Auberge", color: "var(--color-yellow-500)" },
+    text: "« C'est un endroit fantastique! J'avais une chambre individuelle de belle grandeur et lumineuse. Hyper propre sdb et douche tout est nickel. Cuisine immense et bien équipée. Des balcons partout. Vue imprenable sur un immense jardin. J'ai hâte d'y retourner. »",
+    author: "Françoise L.",
+  },
+  {
+    category: { label: "Le Bistro", color: "var(--color-purple-500)" },
+    text: "« Bel endroit avec une super vibe! J'ai adoré le 5@7 avec un DJ. Beau menu, simple mais avec de bonnes options végé. Bons choix de drinks. Super expérience. »",
+    author: "Cécile L.",
+  },
+  {
+    category: { label: "L'Auberge", color: "var(--color-yellow-500)" },
+    text: "« Très belle expérience à l'auberge des balcons. J'y suis allée avec mes 2 ados et nous avons tous apprécié! Les employés sont très accueillants et serviables, c'est très propre, tout ce dont on peut avoir besoin s'y trouve. On a loué des vélos à partir de là, c'est proche de tout. »",
+    author: "Mercedes G.",
+  },
+  {
+    category: { label: "Le Bistro", color: "var(--color-purple-500)" },
+    text: "« Le meilleur séjour de notre vie. Les balcons avec vue sur les montagnes sont à couper le souffle, et l'auberge propose une atmosphère chaleureuse et conviviale. »",
+    author: "Jean-Pierre M.",
+  },
+];
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const RESERVATION_URL = "#reserver";
 ---
 
 <BaseLayout title="Accueil" lang="fr">
+  {/* Navigation */}
+  <Navigation
+    client:load
+    currentPath="/"
+    lang="fr"
+    reservationUrl={RESERVATION_URL}
+  />
+
   <main>
-    <h1>Les Balcons</h1>
-    <p>Auberge & Bistro culturel — Baie-Saint-Paul, Charlevoix</p>
+    {/* 1. Hero — green section + arch photo */}
+    <Hero
+      client:load
+      heroImage="/images/hero.jpg"
+      bookingUrl="https://beds24.com/booking2.php?propid=example"
+    />
+
+    {/* 2. Intro text */}
+    <IntroText
+      text="Que ce soit pour une escapade entre amis, une retraite créative ou un hébergement après ta rando, Les Balcons, c'est ta destination idéale. Situé au cœur du centre-ville à deux pas de tous les attraits, c'est un lieu de vie bien ancré dans sa communauté offrant une programmation culturelle à l'année!"
+    />
+
+    {/* 3. Photo gallery carousel */}
+    <PhotoGallery client:load images={GALLERY_IMAGES} />
+
+    {/* 4. Feature cards — L'Auberge & Le Bistro */}
+    <div class="flex flex-col gap-6 py-14 px-6 bg-[var(--color-beige-100)]">
+      <FeatureCard
+        universe="auberge"
+        title="L'Auberge"
+        description="L'auberge propose une expérience d'hébergement abordable et conviviale. Des chambres privées (individuelles, doubles ou triples), des dortoirs, une suite avec salon, cuisine et salle-de-bain pouvant accueillir jusqu'à 4 personnes, sans oublier nos grands espaces communs offrant une vue imprenable sur le fleuve et les montagnes environnantes."
+        image="/images/auberge.jpg"
+        primaryCta={{ label: "Je découvre les chambres", href: "/auberge" }}
+        secondaryCta={{ label: "Je réserve une chambre", href: RESERVATION_URL }}
+      />
+      <FeatureCard
+        universe="bistro"
+        title="Le Bistro"
+        description="Ouvert à l'année en soirée le bistro te propose une cuisine savoureuse et réconfortante et plusieurs produits québécois à découvrir en fût ou en bouteilles! C'est aussi un lieu de vie bien ancré dans sa communauté avec une programmation culturelle variée et une foule d'événements spontanés à chaque semaine."
+        image="/images/bistro.jpg"
+        primaryCta={{ label: "Je découvre le bistro", href: "/bistro" }}
+        secondaryCta={{ label: "Voir le menu", href: "/bistro/menu" }}
+      />
+    </div>
+
+    {/* 5. Services grid */}
+    <ServiceGrid services={SERVICES} />
+
+    {/* 6. Testimonials carousel */}
+    <TestimonialCarousel client:load testimonials={TESTIMONIALS} />
+
+    {/* 7. Newsletter */}
+    <Newsletter client:load />
   </main>
+
+  {/* Partners bar */}
+  <PartnersBar partners={PARTNERS} />
+
+  {/* Footer */}
+  <Footer client:load lang="fr" />
+
+  {/* Floating CTA */}
+  <FloatingCTA href={RESERVATION_URL} />
 </BaseLayout>

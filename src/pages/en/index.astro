@@ -1,13 +1,161 @@
 ---
 export const prerender = true;
 import BaseLayout from "../../layouts/BaseLayout.astro";
-// EN pages live under /en/ prefix
 
+// Layout
+import { Navigation } from "../../components/layout/Navigation";
+import { Footer } from "../../components/layout/Footer";
+
+// Sections
+import Hero from "../../components/sections/Hero";
+import IntroText from "../../components/sections/IntroText";
+import PhotoGallery from "../../components/sections/PhotoGallery";
+import { FeatureCard } from "../../components/sections/FeatureCard";
+import { ServiceGrid } from "../../components/sections/ServiceGrid";
+import { TestimonialCarousel } from "../../components/sections/TestimonialCarousel";
+import Newsletter from "../../components/sections/Newsletter";
+import { PartnersBar } from "../../components/sections/PartnersBar";
+
+// UI
+import { FloatingCTA } from "../../components/ui/FloatingCTA";
+
+// ---------------------------------------------------------------------------
+// Static data (EN)
+// ---------------------------------------------------------------------------
+
+const GALLERY_IMAGES = [
+  { src: "/images/gallery-1.jpg", alt: "Live show at the Bistro" },
+  { src: "/images/gallery-2.jpg", alt: "The inn in autumn" },
+  { src: "/images/gallery-3.jpg", alt: "Comfortable dorm room" },
+  { src: "/images/gallery-4.jpg", alt: "Summer terrace" },
+  { src: "/images/gallery-5.jpg", alt: "River view" },
+  { src: "/images/gallery-6.jpg", alt: "Shared kitchen" },
+];
+
+const SERVICES = [
+  {
+    title: "Groups & Business",
+    description: "Conferences, meetings, team retreats or team building activities: a variety of options for a turnkey service in the heart of Baie-Saint-Paul.",
+    image: "/images/service-groupes.jpg",
+    href: "/en/groups",
+  },
+  {
+    title: "Coworking",
+    description: "Coworking space open every day from 9am to 5pm.",
+    image: "/images/service-coworking.jpg",
+    href: "/en/coworking",
+  },
+  {
+    title: "Events",
+    description: "A living space rooted in its community, the Bistro offers a varied cultural program and plenty of spontaneous events.",
+    image: "/images/service-evenements.jpg",
+    href: "/en/events",
+    ctaLabel: "Discover the program",
+    ctaVariant: "button" as const,
+  },
+  {
+    title: "Shop & Thrift Store",
+    description: "Come visit our shop at the front desk. You'll find everything: a clothing thrift store, art, bread from the bakery next door and much more!",
+    image: "/images/service-boutique.jpg",
+    href: "/en/shop",
+  },
+  {
+    title: "Promotions & Partner Offers",
+    description: "We help you save with our local partnerships and accommodation deals.",
+    image: "/images/service-promos.jpg",
+    href: "/en/partner-offers",
+    ctaLabel: "See offers",
+  },
+  {
+    title: "Things to Do",
+    description: "Whether at Les Balcons, in Baie-Saint-Paul or in Charlevoix: relaxation, outdoors, agrotourism, art and culture… endless ideas for an unforgettable stay!",
+    image: "/images/service-quoifaire.jpg",
+    href: "/en/things-to-do",
+    ctaLabel: "See suggestions",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    category: { label: "The Inn", color: "var(--color-yellow-500)" },
+    text: "\"This is a fantastic place! I had a spacious, bright private room. Super clean bathroom and shower, everything is spotless. Huge well-equipped kitchen. Balconies everywhere. Stunning view of a huge garden. Can't wait to go back.\"",
+    author: "Françoise L.",
+  },
+  {
+    category: { label: "The Bistro", color: "var(--color-purple-500)" },
+    text: "\"Great spot with an awesome vibe! I loved the 5@7 with a DJ. Nice menu, simple but with good veggie options. Great drink selection. Super experience.\"",
+    author: "Cécile L.",
+  },
+  {
+    category: { label: "The Inn", color: "var(--color-yellow-500)" },
+    text: "\"Great experience at the auberge des balcons. I went with my 2 teens and we all loved it! The staff is very welcoming and helpful, it's very clean, everything you could need is there. We rented bikes from there, it's close to everything.\"",
+    author: "Mercedes G.",
+  },
+];
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const RESERVATION_URL = "#book";
 ---
 
 <BaseLayout title="Home" lang="en">
+  <Navigation
+    client:load
+    currentPath="/en"
+    lang="en"
+    reservationUrl={RESERVATION_URL}
+  />
+
   <main>
-    <h1>Les Balcons</h1>
-    <p>Inn & Cultural Bistro — Baie-Saint-Paul, Charlevoix</p>
+    <Hero
+      client:load
+      heroImage="/images/hero.jpg"
+      heroImageAlt="Les Balcons Inn in Baie-Saint-Paul"
+      bookingUrl="https://beds24.com/booking2.php?propid=example&lang=en"
+    />
+
+    <IntroText
+      text="Whether it's a getaway with friends, a creative retreat or accommodation after your hike, Les Balcons is your ideal destination. Located in the heart of downtown, steps from all attractions, it's a living space rooted in its community offering year-round cultural programming!"
+    />
+
+    <PhotoGallery client:load images={GALLERY_IMAGES} />
+
+    <div class="flex flex-col gap-6 py-14 px-6 bg-[var(--color-beige-100)]">
+      <FeatureCard
+        universe="auberge"
+        title="The Inn"
+        description="The inn offers an affordable and friendly accommodation experience. Private rooms (single, double or triple), dormitories, a suite with living room, kitchen and bathroom that can accommodate up to 4 people, plus our large common areas with stunning views of the river and surrounding mountains."
+        image="/images/auberge.jpg"
+        primaryCta={{ label: "Discover the rooms", href: "/en/inn" }}
+        secondaryCta={{ label: "Book a room", href: RESERVATION_URL }}
+      />
+      <FeatureCard
+        universe="bistro"
+        title="The Bistro"
+        description="Open year-round in the evening, the bistro offers tasty and comforting cuisine and several Quebec products to discover on tap or in bottles! It's also a living space rooted in its community with a varied cultural program and plenty of spontaneous events every week."
+        image="/images/bistro.jpg"
+        primaryCta={{ label: "Discover the bistro", href: "/en/bistro" }}
+        secondaryCta={{ label: "See the menu", href: "/en/bistro/menu" }}
+      />
+    </div>
+
+    <ServiceGrid services={SERVICES} />
+
+    <TestimonialCarousel
+      client:load
+      title="What our guests say about us"
+      testimonials={TESTIMONIALS}
+    />
+
+    <Newsletter client:load />
   </main>
+
+  <PartnersBar partners={PARTNERS} />
+  <Footer client:load lang="en" />
+  <FloatingCTA label="Book now" href={RESERVATION_URL} />
 </BaseLayout>
