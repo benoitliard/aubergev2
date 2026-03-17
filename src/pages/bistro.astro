@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+---
+
+<BaseLayout title="Le Bistro" description="Le Bistro des Balcons — Cuisine locale, bières de microbrasseries et programmation culturelle à Baie-Saint-Paul." lang="fr">
+  <Navigation client:load currentPath="/bistro" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — purple */}
+    <section class="bg-[var(--color-purple-500)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-charcoal)] mb-6">
+          Le Bistro
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)] max-w-[800px]">
+          Ouvert à l'année en soirée, le Bistro te propose une cuisine savoureuse et réconfortante et plusieurs produits québécois à découvrir en fût ou en bouteilles! C'est aussi un lieu de vie bien ancré dans sa communauté avec une programmation culturelle variée et une foule d'événements spontanés à chaque semaine.
+        </p>
+      </div>
+    </section>
+
+    {/* Horaires & infos */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] grid gap-12 lg:grid-cols-2">
+        {/* Horaires */}
+        <div class="flex flex-col gap-8">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Horaires
+          </h2>
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2 rounded-[32px] bg-white p-8">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                Le Bistro
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                Mercredi au samedi : 17h à 23h
+              </p>
+            </div>
+            <div class="flex flex-col gap-2 rounded-[32px] bg-white p-8">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                Espace Coworking
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                7 jours sur 7 : 9h à 17h
+              </p>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/70">
+                5$ / jour — Gratuit pour les clients de l'auberge. WiFi haute vitesse, imprimante, micro-ondes, bouilloire.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Ce qu'on offre */}
+        <div class="flex flex-col gap-8">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Ce qu'on offre
+          </h2>
+          <ul class="flex flex-col gap-4 list-none m-0 p-0">
+            {[
+              "Spectacles live chaque semaine",
+              "DJ sets les jeudis",
+              "Terrasse accueillante pour les chiens",
+              "Bières de microbrasseries en rotation",
+              "Menu simple et réconfortant avec des producteurs locaux",
+              "Espace coworking 7j/7",
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-1.5 h-3 w-3 shrink-0 rounded-full bg-[var(--color-purple-500)]" />
+                <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* CTA events */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
+        Événements & Programmation
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Consulte notre page Facebook pour la programmation complète et les événements à venir.
+      </p>
+      <a
+        href="https://www.facebook.com/aubergedesbalcons"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-purple-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+      >
+        Voir les événements sur Facebook
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>
