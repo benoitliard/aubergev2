@@ -20,6 +20,7 @@
   --color-charcoal: #1d1c17;
 
   /* === Typography === */
+  --font-display: "Extra Chunk Please", "Bricolage Grotesque", sans-serif;
   --font-title: "Bricolage Grotesque", sans-serif;
   --font-body: "Bricolage Grotesque 24pt SemiCondensed", sans-serif;
 

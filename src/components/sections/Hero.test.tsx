@@ -5,100 +5,66 @@ import Hero from './Hero';
 describe('Hero', () => {
   describe('renders without crashing', () => {
     it('renders a section element', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
+      render(<Hero heroImage="/images/hero.jpg" />);
       expect(screen.getByRole('region')).toBeInTheDocument();
     });
   });
 
-  describe('title prop', () => {
-    it('renders the default title "LES BALCONS"', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
-      expect(screen.getByRole('heading', { level: 1, name: 'LES BALCONS' })).toBeInTheDocument();
+  describe('static content', () => {
+    it('renders the title "Les Balcons"', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      expect(screen.getByRole('heading', { level: 1, name: 'Les Balcons' })).toBeInTheDocument();
     });
 
-    it('renders a custom title', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" title="Welcome" />);
-      expect(screen.getByRole('heading', { level: 1, name: 'Welcome' })).toBeInTheDocument();
-    });
-  });
-
-  describe('subtitle prop', () => {
-    it('renders the default subtitle', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
+    it('renders the subtitle', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
       expect(screen.getByText('Auberge & Bistro culturel')).toBeInTheDocument();
     });
 
-    it('renders a custom subtitle', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" subtitle="A unique place" />);
-      expect(screen.getByText('A unique place')).toBeInTheDocument();
-    });
-
-    it('does not render subtitle element when subtitle is empty string', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" subtitle="" />);
-      expect(screen.queryByText('A unique place')).not.toBeInTheDocument();
+    it('renders the description', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      expect(screen.getByText(/séjour convivial/)).toBeInTheDocument();
     });
   });
 
-  describe('tagline prop', () => {
-    it('renders the tagline when provided', () => {
-      render(
-        <Hero backgroundImage="/images/hero.jpg" tagline="Votre escapade culturelle" />
-      );
-      expect(screen.getByText('Votre escapade culturelle')).toBeInTheDocument();
-    });
-
-    it('does not render a tagline element when not provided', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
-      expect(screen.queryByText('Votre escapade culturelle')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('CTA props', () => {
-    it('renders the CTA link when both ctaLabel and ctaHref are provided', () => {
-      render(
-        <Hero
-          backgroundImage="/images/hero.jpg"
-          ctaLabel="Disponibilités"
-          ctaHref="/reservations"
-        />
-      );
-      expect(screen.getByRole('link', { name: 'Disponibilités' })).toHaveAttribute(
-        'href',
-        '/reservations'
-      );
-    });
-
-    it('does not render CTA when only ctaLabel is provided', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" ctaLabel="Book" />);
-      expect(screen.queryByRole('link', { name: 'Book' })).not.toBeInTheDocument();
-    });
-
-    it('does not render CTA when only ctaHref is provided', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" ctaHref="/reservations" />);
-      expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('backgroundImage prop', () => {
-    it('renders the background image', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
-      // The image is aria-hidden, query it via the DOM directly
-      const img = document.querySelector('img[aria-hidden="true"]');
-      expect(img).toBeInTheDocument();
+  describe('hero image', () => {
+    it('renders the hero image with the provided src', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      const img = screen.getByAltText("L'Auberge Les Balcons à Baie-Saint-Paul");
       expect(img).toHaveAttribute('src', '/images/hero.jpg');
     });
 
-    it('the background image has aria-hidden set to true', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" />);
-      const img = document.querySelector('img');
-      expect(img).toHaveAttribute('aria-hidden', 'true');
+    it('accepts a custom alt text', () => {
+      render(<Hero heroImage="/images/hero.jpg" heroImageAlt="Custom alt" />);
+      expect(screen.getByAltText('Custom alt')).toBeInTheDocument();
+    });
+  });
+
+  describe('booking widget', () => {
+    it('renders the iframe when bookingUrl is provided', () => {
+      render(<Hero heroImage="/images/hero.jpg" bookingUrl="https://beds24.com/booking" />);
+      const iframe = document.querySelector('iframe');
+      expect(iframe).toBeInTheDocument();
+      expect(iframe).toHaveAttribute('src', 'https://beds24.com/booking');
+      expect(iframe).toHaveAttribute('title', 'Réservation');
+    });
+
+    it('does not render the iframe when bookingUrl is omitted', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      expect(document.querySelector('iframe')).not.toBeInTheDocument();
     });
   });
 
   describe('accessibility', () => {
     it('has an aria-label on the section', () => {
-      render(<Hero backgroundImage="/images/hero.jpg" title="LES BALCONS" />);
-      expect(screen.getByRole('region', { name: 'LES BALCONS' })).toBeInTheDocument();
+      render(<Hero heroImage="/images/hero.jpg" />);
+      expect(screen.getByRole('region', { name: 'Les Balcons' })).toBeInTheDocument();
+    });
+
+    it('the arch mask SVG is hidden from screen readers', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      const svg = document.querySelector('svg[aria-hidden="true"]');
+      expect(svg).toBeInTheDocument();
     });
   });
 });

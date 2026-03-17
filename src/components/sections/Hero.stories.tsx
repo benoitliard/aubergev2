@@ -14,34 +14,22 @@ const meta: Meta<typeof Hero> = {
     docs: {
       description: {
         component:
-          "Section hero pleine largeur pour la page d'accueil. Affiche une image de fond avec un dégradé sombre, le nom de l'établissement, un sous-titre, une accroche et un lien CTA. Conçu comme un island React dans Astro.",
+          "Section hero de la page d'accueil. Fond vert foncé avec titre display, sous-titre, description, widget de réservation Beds24, et photo avec masque en double arche (silhouette mascotte).",
       },
     },
   },
   argTypes: {
-    backgroundImage: {
+    heroImage: {
       control: "text",
-      description: "URL de l'image de fond.",
+      description: "URL de la photo hero affichée dans le masque en arche.",
     },
-    title: {
+    heroImageAlt: {
       control: "text",
-      description: "Titre principal (h1). Défaut : « LES BALCONS ».",
+      description: "Texte alternatif pour la photo hero.",
     },
-    subtitle: {
+    bookingUrl: {
       control: "text",
-      description: "Sous-titre affiché sous le h1.",
-    },
-    tagline: {
-      control: "text",
-      description: "Courte accroche affichée sous le sous-titre.",
-    },
-    ctaLabel: {
-      control: "text",
-      description: "Texte du lien CTA.",
-    },
-    ctaHref: {
-      control: "text",
-      description: "URL cible du lien CTA.",
+      description: "URL du widget iframe Beds24. Masqué si omis.",
     },
   },
 };
@@ -55,56 +43,22 @@ type Story = StoryObj<typeof Hero>;
 // ---------------------------------------------------------------------------
 
 /**
- * Affichage complet avec tous les éléments : titre, sous-titre, accroche et CTA.
+ * Affichage complet avec photo et widget de réservation.
  */
 export const Default: Story = {
   name: "Default (complet)",
   args: {
-    backgroundImage: "https://picsum.photos/seed/balcons-hero/1440/850",
-    title: "LES BALCONS",
-    subtitle: "Auberge & Bistro culturel",
-    tagline:
-      "Votre escapade culturelle à Baie-Saint-Paul, Charlevoix depuis 2017",
-    ctaLabel: "Disponibilités et tarifs →",
-    ctaHref: "/reservations",
+    heroImage: "https://picsum.photos/seed/balcons-hero/1920/1038",
+    bookingUrl: "https://beds24.com/booking2.php?propid=example",
   },
 };
 
 /**
- * Version minimale : seulement l'image de fond et le titre par défaut.
+ * Version minimale : seulement la photo, sans widget de réservation.
  */
-export const Minimal: Story = {
-  name: "Minimal (titre seul)",
+export const WithoutBooking: Story = {
+  name: "Sans widget réservation",
   args: {
-    backgroundImage: "https://picsum.photos/seed/balcons-minimal/1440/850",
-  },
-};
-
-/**
- * Sans lien CTA — utile pour des pages secondaires qui n'ont pas d'appel à l'action.
- */
-export const WithoutCTA: Story = {
-  name: "Sans CTA",
-  args: {
-    backgroundImage: "https://picsum.photos/seed/balcons-nocta/1440/850",
-    title: "LES BALCONS",
-    subtitle: "Auberge & Bistro culturel",
-    tagline:
-      "Votre escapade culturelle à Baie-Saint-Paul, Charlevoix depuis 2017",
-  },
-};
-
-/**
- * Titre et sous-titre personnalisés — pour une page secondaire (ex. Le Bistro).
- */
-export const CustomContent: Story = {
-  name: "Contenu personnalisé",
-  args: {
-    backgroundImage: "https://picsum.photos/seed/balcons-bistro/1440/850",
-    title: "LE BISTRO",
-    subtitle: "Gastronomie & culture locale",
-    tagline: "Une expérience culinaire unique au cœur de Charlevoix",
-    ctaLabel: "Voir le menu →",
-    ctaHref: "/bistro/menu",
+    heroImage: "https://picsum.photos/seed/balcons-hero/1920/1038",
   },
 };

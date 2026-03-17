@@ -292,41 +292,75 @@ export function Navigation({
         aria-label="Menu de navigation"
         className={[
           "fixed inset-0 z-50 lg:hidden",
-          "bg-[var(--color-charcoal)]",
+          "bg-[var(--color-green-dark)]",
           "flex flex-col",
           // Transition
           "transition-[opacity,visibility] duration-300 ease-in-out",
           menuOpen ? "opacity-100 visible" : "opacity-0 invisible",
         ].join(" ")}
       >
-        {/* Header row inside overlay */}
-        <div className="flex items-center justify-between h-[90px] px-6">
-          <div className="h-[40px]" onClick={handleLinkClick}>
-            <Logo variant="light" className="h-full" />
-          </div>
-
-          {/* Close button */}
-          <button
-            type="button"
-            aria-label="Fermer le menu"
-            onClick={() => setMenuOpen(false)}
-            className={[
-              "text-[var(--color-beige-100)]",
-              "flex items-center justify-center p-1 -mr-1",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-              "transition-opacity duration-200 hover:opacity-60",
-            ].join(" ")}
+        {/* Header row — beige bar matching the nav bar */}
+        <div
+          className={[
+            "flex items-center justify-between",
+            "h-[90px] px-4",
+            "bg-[var(--color-beige-100)]",
+          ].join(" ")}
+        >
+          {/* Mascot logo */}
+          <a
+            href="/"
+            onClick={handleLinkClick}
+            aria-label="Les Balcons — Retour à l'accueil"
+            className="inline-flex items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]"
           >
-            <CloseIcon />
-          </button>
+            <img
+              src="/mascot.svg"
+              alt="Les Balcons"
+              className="h-[52px] w-auto"
+            />
+          </a>
+
+          {/* Right side: reserve link + close */}
+          <div className="flex items-center gap-8 px-2">
+            <a
+              href={reservationUrl}
+              onClick={handleLinkClick}
+              className={[
+                "font-[family-name:var(--font-title)] font-extrabold",
+                "text-[length:var(--text-body-sm)]",
+                "text-[var(--color-charcoal)]",
+                "border-b-[3px] border-[var(--color-charcoal)] pb-2",
+                "transition-opacity duration-200 hover:opacity-60",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
+              ].join(" ")}
+            >
+              Je réserve
+            </a>
+
+            {/* Close button */}
+            <button
+              type="button"
+              aria-label="Fermer le menu"
+              onClick={() => setMenuOpen(false)}
+              className={[
+                "text-[var(--color-charcoal)]",
+                "flex items-center justify-center",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
+                "transition-opacity duration-200 hover:opacity-60",
+              ].join(" ")}
+            >
+              <CloseIcon />
+            </button>
+          </div>
         </div>
 
-        {/* Nav links */}
+        {/* Nav links — centered vertically */}
         <nav
           aria-label="Navigation mobile"
-          className="flex-1 flex flex-col justify-center px-8"
+          className="flex-1 flex flex-col justify-center items-center py-12"
         >
-          <ul className="list-none m-0 p-0 flex flex-col gap-8" role="list">
+          <ul className="list-none m-0 p-0 flex flex-col items-center gap-10" role="list">
             {navLinks.map((link, index) => (
               <li
                 key={link.href}
@@ -346,17 +380,13 @@ export function Navigation({
                   aria-current={isActive(link.href) ? "page" : undefined}
                   onClick={handleLinkClick}
                   className={[
-                    "font-[family-name:var(--font-title)] font-bold",
-                    "text-[length:var(--text-h4)]",
+                    "font-[family-name:var(--font-title)] font-extrabold",
+                    "text-[length:var(--text-body-lg)]",
+                    "text-[var(--color-beige-100)]",
                     "no-underline transition-opacity duration-200",
                     "hover:opacity-60",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-                    isActive(link.href)
-                      ? "text-[var(--color-green-light)]"
-                      : "text-[var(--color-beige-100)]",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
+                  ].join(" ")}
                 >
                   {link.label}
                 </a>
@@ -365,25 +395,13 @@ export function Navigation({
           </ul>
         </nav>
 
-        {/* CTA at bottom of overlay */}
-        <div className="px-8 pb-12">
-          <a
-            href={reservationUrl}
-            onClick={handleLinkClick}
-            className={[
-              "inline-flex items-center justify-center w-full",
-              "rounded-full",
-              "bg-[var(--color-green-dark)]",
-              "text-[var(--color-beige-100)]",
-              "font-[family-name:var(--font-title)] font-extrabold",
-              "text-[length:var(--text-body-sm)]",
-              "px-8 py-4",
-              "transition-[filter] duration-200 hover:brightness-90",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-            ].join(" ")}
-          >
-            Je réserve
-          </a>
+        {/* Decorative brand illustration at bottom */}
+        <div className="shrink-0 overflow-hidden h-[226px]" aria-hidden="true">
+          <img
+            src="/menu-decoration.svg"
+            alt=""
+            className="mx-auto h-full w-auto"
+          />
         </div>
       </div>
     </>

@@ -16,7 +16,7 @@ function PartnerLogo({ partner }: { partner: PartnerItem }) {
     <img
       src={partner.logo}
       alt={partner.name}
-      className="max-h-[78px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+      className="max-h-[99px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
     />
   );
 
@@ -41,8 +41,8 @@ export function PartnersBar({ partners, className = "" }: PartnersBarProps) {
   const classes = [
     "w-full",
     "bg-[var(--color-beige-100)]",
-    "py-8",
-    "px-4 md:px-14",
+    "py-8 desktop:py-12",
+    "px-4 desktop:px-14",
     className,
   ]
     .filter(Boolean)
