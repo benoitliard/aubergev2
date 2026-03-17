@@ -49,14 +49,14 @@ function generateMonthOptions(lang: "fr" | "en") {
 // ---------------------------------------------------------------------------
 
 const selectClasses = [
-  "appearance-none rounded-full",
-  "border border-[var(--color-green-dark)]",
-  "bg-white px-5 py-3",
+  "appearance-none",
+  "border border-gray-300",
+  "bg-white px-3 py-2",
   "font-[family-name:var(--font-body)]",
-  "text-[length:var(--text-body-xs)] leading-[1.5]",
+  "text-[14px] leading-[1.4]",
   "text-[var(--color-charcoal)]",
   "outline-none",
-  "focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)] focus-visible:ring-offset-1",
+  "focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)]",
 ].join(" ");
 
 // ---------------------------------------------------------------------------
@@ -105,8 +105,8 @@ export function BookingWidget({
       action="https://www.beds24.com/booking2.php"
       className={[
         "mx-auto w-full max-w-[900px]",
-        "flex flex-col gap-4 lg:flex-row lg:items-end lg:gap-3",
-        "rounded-[32px] bg-white px-5 py-4 lg:px-6 lg:py-4",
+        "flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-0",
+        "bg-white rounded-lg px-4 py-3 lg:px-5 lg:py-2.5",
       ].join(" ")}
     >
       {/* Hidden fields */}
@@ -115,91 +115,39 @@ export function BookingWidget({
       <input type="hidden" name="referer" value="web" />
 
       {/* Arrival date */}
-      <div className="flex flex-1 flex-col gap-1.5">
-        <label
-          className={[
-            "font-[family-name:var(--font-body)]",
-            "text-[length:var(--text-body-xs)] leading-[1.5]",
-            "text-[var(--color-charcoal)]/70",
-          ].join(" ")}
-          htmlFor="bw-date"
-        >
-          {labels.arrival}
-        </label>
-        <div className="flex items-center gap-2">
+      <div className="flex flex-1 flex-col gap-1 lg:border-r lg:border-gray-200 lg:pr-3">
+        <span className="text-[12px] text-[var(--color-charcoal)]/60">{labels.arrival}</span>
+        <div className="flex items-center gap-1.5">
           <CalendarIcon />
-          <select
-            id="bw-date"
-            name="fdate_date"
-            className={`${selectClasses} flex-1`}
-          >
+          <select id="bw-date" name="fdate_date" className={`${selectClasses} flex-1`}>
             {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
+              <option key={d} value={d}>{d}</option>
             ))}
           </select>
-          <select
-            name="fdate_monthyear"
-            className={`${selectClasses} flex-1`}
-          >
+          <select name="fdate_monthyear" className={`${selectClasses} flex-1`}>
             {months.map((m) => (
-              <option key={m.value} value={m.value}>
-                {m.label}
-              </option>
+              <option key={m.value} value={m.value}>{m.label}</option>
             ))}
           </select>
         </div>
       </div>
 
       {/* Nights */}
-      <div className="flex flex-col gap-1.5">
-        <label
-          className={[
-            "font-[family-name:var(--font-body)]",
-            "text-[length:var(--text-body-xs)] leading-[1.5]",
-            "text-[var(--color-charcoal)]/70",
-          ].join(" ")}
-          htmlFor="bw-nights"
-        >
-          {labels.nights}
-        </label>
-        <select
-          id="bw-nights"
-          name="numnight"
-          defaultValue="1"
-          className={`${selectClasses} lg:w-[80px]`}
-        >
+      <div className="flex flex-col gap-1 lg:border-r lg:border-gray-200 lg:px-3">
+        <span className="text-[12px] text-[var(--color-charcoal)]/60">{labels.nights}</span>
+        <select id="bw-nights" name="numnight" defaultValue="1" className={`${selectClasses} lg:w-16`}>
           {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
+            <option key={n} value={n}>{n}</option>
           ))}
         </select>
       </div>
 
       {/* Guests */}
-      <div className="flex flex-col gap-1.5">
-        <label
-          className={[
-            "font-[family-name:var(--font-body)]",
-            "text-[length:var(--text-body-xs)] leading-[1.5]",
-            "text-[var(--color-charcoal)]/70",
-          ].join(" ")}
-          htmlFor="bw-guests"
-        >
-          {labels.guests}
-        </label>
-        <select
-          id="bw-guests"
-          name="numadult"
-          defaultValue="2"
-          className={`${selectClasses} lg:w-[80px]`}
-        >
+      <div className="flex flex-col gap-1 lg:px-3">
+        <span className="text-[12px] text-[var(--color-charcoal)]/60">{labels.guests}</span>
+        <select id="bw-guests" name="numadult" defaultValue="2" className={`${selectClasses} lg:w-16`}>
           {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
+            <option key={n} value={n}>{n}</option>
           ))}
         </select>
       </div>
@@ -208,11 +156,11 @@ export function BookingWidget({
       <button
         type="submit"
         className={[
-          "w-full lg:w-auto",
-          "rounded-full bg-[var(--color-yellow-500)]",
-          "px-8 py-3",
+          "w-full lg:w-auto shrink-0",
+          "rounded-md bg-[var(--color-yellow-500)]",
+          "px-6 py-2",
           "font-[family-name:var(--font-title)] font-extrabold",
-          "text-[length:var(--text-body-sm)] leading-[1.5]",
+          "text-[14px] leading-[1.5]",
           "text-[var(--color-charcoal)]",
           "transition-opacity hover:opacity-80",
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
