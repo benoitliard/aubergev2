@@ -1,8 +1,9 @@
 /**
- * BookingWidget — Beds24 booking search form.
+ * BookingWidget — Beds24 booking search form matching the Les Balcons design.
  *
- * Renders a horizontal form (date, nights, guests, search button) that
- * submits to the Beds24 booking page in a new tab.
+ * Compact horizontal bar: calendar icon, date selects, nights, guests, search.
+ * White background, rounded-full pill selects with green-dark borders,
+ * yellow "Rechercher" button. Stacks vertically on mobile.
  *
  * Usage:
  * ```tsx
@@ -43,18 +44,45 @@ function generateMonthOptions(lang: "fr" | "en") {
   return months;
 }
 
-function generateDayOptions(lang: "fr" | "en") {
-  const days: { value: string; label: string }[] = [];
-  const formatter = new Intl.DateTimeFormat(lang === "fr" ? "fr-CA" : "en-CA", {
-    weekday: "short",
-    day: "numeric",
-  });
+// ---------------------------------------------------------------------------
+// Shared select styles
+// ---------------------------------------------------------------------------
 
-  // Generate days for current month by default
-  for (let i = 1; i <= 31; i++) {
-    days.push({ value: String(i), label: String(i) });
-  }
-  return days;
+const selectClasses = [
+  "appearance-none rounded-full",
+  "border border-[var(--color-green-dark)]",
+  "bg-white px-5 py-3",
+  "font-[family-name:var(--font-body)]",
+  "text-[length:var(--text-body-xs)] leading-[1.5]",
+  "text-[var(--color-charcoal)]",
+  "outline-none",
+  "focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)] focus-visible:ring-offset-1",
+].join(" ");
+
+// ---------------------------------------------------------------------------
+// Sub-components
+// ---------------------------------------------------------------------------
+
+function CalendarIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0 text-[var(--color-green-dark)]"
+    >
+      <rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M2 8H18" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M6 2V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M14 2V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <rect x="5" y="11" width="2" height="2" rx="0.5" fill="currentColor" />
+      <rect x="9" y="11" width="2" height="2" rx="0.5" fill="currentColor" />
+      <rect x="13" y="11" width="2" height="2" rx="0.5" fill="currentColor" />
+    </svg>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -66,7 +94,6 @@ export function BookingWidget({
   lang = "fr",
 }: BookingWidgetProps) {
   const months = useMemo(() => generateMonthOptions(lang), [lang]);
-  const days = useMemo(() => generateDayOptions(lang), [lang]);
   const labels = lang === "fr"
     ? { arrival: "Arrivée", nights: "Nuit(s)", guests: "Client(s)", search: "Rechercher" }
     : { arrival: "Check-in", nights: "Night(s)", guests: "Guest(s)", search: "Search" };
@@ -78,9 +105,8 @@ export function BookingWidget({
       action="https://www.beds24.com/booking2.php"
       className={[
         "mx-auto w-full max-w-[900px]",
-        "flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-0",
-        "rounded-2xl bg-white p-4 lg:px-6 lg:py-3",
-        "shadow-sm",
+        "flex flex-col gap-4 lg:flex-row lg:items-end lg:gap-3",
+        "rounded-[32px] bg-white px-5 py-4 lg:px-6 lg:py-4",
       ].join(" ")}
     >
       {/* Hidden fields */}
@@ -89,38 +115,33 @@ export function BookingWidget({
       <input type="hidden" name="referer" value="web" />
 
       {/* Arrival date */}
-      <div className="flex flex-1 flex-col gap-1 lg:border-r lg:border-gray-200 lg:pr-4">
+      <div className="flex flex-1 flex-col gap-1.5">
         <label
-          className="text-[length:var(--text-body-xs)] text-[var(--color-charcoal)]/60"
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-xs)] leading-[1.5]",
+            "text-[var(--color-charcoal)]/70",
+          ].join(" ")}
           htmlFor="bw-date"
         >
           {labels.arrival}
         </label>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <CalendarIcon />
           <select
             id="bw-date"
             name="fdate_date"
-            className={[
-              "flex-1 appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2",
-              "font-[family-name:var(--font-body)] text-[length:var(--text-body-xs)]",
-              "text-[var(--color-charcoal)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)]",
-            ].join(" ")}
+            className={`${selectClasses} flex-1`}
           >
-            {days.map((d) => (
-              <option key={d.value} value={d.value}>
-                {d.label}
+            {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+              <option key={d} value={d}>
+                {d}
               </option>
             ))}
           </select>
           <select
             name="fdate_monthyear"
-            className={[
-              "flex-1 appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2",
-              "font-[family-name:var(--font-body)] text-[length:var(--text-body-xs)]",
-              "text-[var(--color-charcoal)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)]",
-            ].join(" ")}
+            className={`${selectClasses} flex-1`}
           >
             {months.map((m) => (
               <option key={m.value} value={m.value}>
@@ -132,9 +153,13 @@ export function BookingWidget({
       </div>
 
       {/* Nights */}
-      <div className="flex flex-col gap-1 lg:border-r lg:border-gray-200 lg:px-4">
+      <div className="flex flex-col gap-1.5">
         <label
-          className="text-[length:var(--text-body-xs)] text-[var(--color-charcoal)]/60"
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-xs)] leading-[1.5]",
+            "text-[var(--color-charcoal)]/70",
+          ].join(" ")}
           htmlFor="bw-nights"
         >
           {labels.nights}
@@ -143,12 +168,7 @@ export function BookingWidget({
           id="bw-nights"
           name="numnight"
           defaultValue="1"
-          className={[
-            "appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2",
-            "font-[family-name:var(--font-body)] text-[length:var(--text-body-xs)]",
-            "text-[var(--color-charcoal)] lg:w-20",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)]",
-          ].join(" ")}
+          className={`${selectClasses} lg:w-[80px]`}
         >
           {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
             <option key={n} value={n}>
@@ -159,9 +179,13 @@ export function BookingWidget({
       </div>
 
       {/* Guests */}
-      <div className="flex flex-col gap-1 lg:px-4">
+      <div className="flex flex-col gap-1.5">
         <label
-          className="text-[length:var(--text-body-xs)] text-[var(--color-charcoal)]/60"
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-xs)] leading-[1.5]",
+            "text-[var(--color-charcoal)]/70",
+          ].join(" ")}
           htmlFor="bw-guests"
         >
           {labels.guests}
@@ -170,12 +194,7 @@ export function BookingWidget({
           id="bw-guests"
           name="numadult"
           defaultValue="2"
-          className={[
-            "appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2",
-            "font-[family-name:var(--font-body)] text-[length:var(--text-body-xs)]",
-            "text-[var(--color-charcoal)] lg:w-20",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)]",
-          ].join(" ")}
+          className={`${selectClasses} lg:w-[80px]`}
         >
           {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
             <option key={n} value={n}>
@@ -186,23 +205,22 @@ export function BookingWidget({
       </div>
 
       {/* Submit */}
-      <div className="lg:pl-4">
-        <button
-          type="submit"
-          className={[
-            "w-full lg:w-auto",
-            "rounded-full bg-[var(--color-yellow-500)] px-6 py-3",
-            "font-[family-name:var(--font-title)] font-extrabold",
-            "text-[length:var(--text-body-xs)]",
-            "text-[var(--color-charcoal)]",
-            "transition-opacity hover:opacity-80",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
-            "cursor-pointer",
-          ].join(" ")}
-        >
-          {labels.search}
-        </button>
-      </div>
+      <button
+        type="submit"
+        className={[
+          "w-full lg:w-auto",
+          "rounded-full bg-[var(--color-yellow-500)]",
+          "px-8 py-3",
+          "font-[family-name:var(--font-title)] font-extrabold",
+          "text-[length:var(--text-body-sm)] leading-[1.5]",
+          "text-[var(--color-charcoal)]",
+          "transition-opacity hover:opacity-80",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
+          "cursor-pointer",
+        ].join(" ")}
+      >
+        {labels.search}
+      </button>
     </form>
   );
 }
