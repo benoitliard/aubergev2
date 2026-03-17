@@ -1,0 +1,161 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const ROOMS = [
+  {
+    title: "Chambre individuelle",
+    text: "Une chambre privée pour une personne, idéale pour les voyageurs solo qui veulent leur propre espace tout en profitant de l'ambiance de l'auberge.",
+  },
+  {
+    title: "Chambre double ou triple",
+    text: "Parfaite pour les couples ou les amis, nos chambres doubles et triples offrent confort et intimité à un prix abordable.",
+  },
+  {
+    title: "Dortoirs",
+    text: "L'option la plus économique — partage un espace convivial avec d'autres voyageurs. Lits superposés, casiers et ambiance chaleureuse.",
+  },
+  {
+    title: "Suite familiale",
+    text: "Un appartement complet avec salon, cuisine et salle de bain privée pouvant accueillir jusqu'à 4 personnes. Idéal pour les familles ou les séjours prolongés.",
+  },
+];
+
+const COMMON_SPACES = [
+  {
+    title: "Cuisine commune",
+    text: "Une grande cuisine entièrement équipée, gratuite pour tous les clients. Micro-ondes, bouilloire, réfrigérateur, ustensiles — tout y est.",
+  },
+  {
+    title: "Balcons & terrasse",
+    text: "Profite de nos célèbres balcons avec vue imprenable sur les montagnes et le fleuve. L'endroit parfait pour prendre un café ou lire un bon livre.",
+  },
+  {
+    title: "Jardin",
+    text: "Un grand jardin verdoyant pour se détendre, jouer aux pétanques ou simplement profiter du plein air au cœur du centre-ville.",
+  },
+  {
+    title: "Salon commun",
+    text: "Un espace de vie chaleureux pour rencontrer d'autres voyageurs, regarder un film ou planifier ta prochaine aventure dans Charlevoix.",
+  },
+];
+---
+
+<BaseLayout title="L'Auberge" description="L'Auberge des Balcons — Hébergement abordable et convivial à Baie-Saint-Paul, Charlevoix. Chambres privées, dortoirs et suite familiale." lang="fr">
+  <Navigation client:load currentPath="/auberge" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — yellow */}
+    <section class="bg-[var(--color-yellow-500)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-charcoal)] mb-6">
+          L'Auberge
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)] max-w-[800px]">
+          Un hébergement abordable, chaleureux et authentique au cœur de Baie-Saint-Paul. Que tu voyages seul, en couple, en famille ou avec des amis, l'Auberge des Balcons t'accueille dans un cadre unique avec vue sur le fleuve et les montagnes de Charlevoix.
+        </p>
+      </div>
+    </section>
+
+    {/* Types de chambres */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <div class="flex flex-col gap-4 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Nos types de chambres
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+            Pour chaque budget et chaque style de voyage, on a une option qui te convient. Toutes les chambres donnent accès aux espaces communs et aux fameux balcons.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          {ROOMS.map((room) => (
+            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {room.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {room.text}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex justify-start">
+          <a
+            href={RESERVATION_URL}
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+          >
+            Je réserve
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* Espaces communs */}
+    <section class="bg-white px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <div class="flex flex-col gap-4 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Espaces communs
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+            Ce qui rend Les Balcons uniques, c'est aussi tout ce qu'on partage. Des espaces pensés pour se rencontrer, se reposer et profiter du cadre exceptionnel de Charlevoix.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {COMMON_SPACES.map((space) => (
+            <div class="flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {space.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {space.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CTA reservation */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
+        Prêt à réserver ton séjour?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Réserve directement en ligne et profite des meilleurs tarifs disponibles pour ton séjour à Baie-Saint-Paul.
+      </p>
+      <a
+        href={RESERVATION_URL}
+        target="_blank"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+      >
+        Je réserve
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

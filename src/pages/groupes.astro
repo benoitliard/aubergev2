@@ -1,0 +1,152 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const SERVICES = [
+  {
+    title: "Conférences et formations",
+    text: "Des espaces polyvalents pour vos conférences, formations et séminaires professionnels. Équipement audiovisuel disponible sur demande.",
+  },
+  {
+    title: "Réunions d'équipe",
+    text: "Un cadre inspirant loin du bureau pour vos réunions stratégiques et ateliers créatifs. Service de restauration possible via le Bistro.",
+  },
+  {
+    title: "Retraites d'équipe",
+    text: "Quelques jours en immersion à Baie-Saint-Paul pour ressourcer votre équipe. Hébergement, repas et activités de team building coordonnés clé en main.",
+  },
+  {
+    title: "Team building & activités",
+    text: "Profitez de notre réseau de partenaires locaux pour organiser des activités plein air, agrotourisme ou culturelles pour votre groupe.",
+  },
+  {
+    title: "Événements privés",
+    text: "Anniversaires, enterrements de vie de jeune fille/garçon, fêtes de famille — réservez une partie ou la totalité de l'auberge pour votre événement.",
+  },
+  {
+    title: "Accueil de groupes",
+    text: "Auberge idéale pour les groupes de cyclistes, randonneurs, artistes en résidence ou associations qui voyagent ensemble.",
+  },
+];
+
+const WHY_BALCONS = [
+  {
+    title: "Emplacement central",
+    text: "Au cœur de Baie-Saint-Paul, à deux pas des restaurants, galeries d'art, sentiers de randonnée et du fleuve Saint-Laurent.",
+  },
+  {
+    title: "Service clé en main",
+    text: "De l'hébergement aux repas en passant par les activités, on coordonne tout pour vous. Un seul interlocuteur pour votre séjour de groupe.",
+  },
+  {
+    title: "Partenariats locaux",
+    text: "On travaille avec les meilleurs producteurs, artisans et prestataires d'activités de Charlevoix pour vous offrir une expérience authentique.",
+  },
+  {
+    title: "Tarifs de groupe",
+    text: "Des prix compétitifs pour les groupes avec des formules adaptées à votre budget et à vos besoins spécifiques.",
+  },
+];
+---
+
+<BaseLayout title="Groupes et affaires" description="Les Balcons accueillent vos groupes — conférences, retraites d'équipe, team building et événements privés à Baie-Saint-Paul." lang="fr">
+  <Navigation client:load currentPath="/groupes" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — green-dark */}
+    <section class="bg-[var(--color-green-dark)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-beige-100)] mb-6">
+          Groupes et affaires
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-beige-100)] max-w-[800px]">
+          Les Balcons, c'est le lieu idéal pour vos événements de groupe. Conférences, réunions, retraites d'équipe ou activités de team building — on offre un service clé en main au cœur de la magnifique Charlevoix.
+        </p>
+      </div>
+    </section>
+
+    {/* Services */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <div class="flex flex-col gap-4 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Nos services pour groupes
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+            Que vous soyez 5 ou 50 personnes, on s'adapte à vos besoins pour organiser un séjour professionnel ou récréatif mémorable.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((service) => (
+            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {service.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {service.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Pourquoi Les Balcons */}
+    <section class="bg-white px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          Pourquoi choisir Les Balcons?
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {WHY_BALCONS.map((reason) => (
+            <div class="flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {reason.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {reason.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CTA contact */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
+        Planifions votre séjour ensemble
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Chaque groupe est unique. Contactez-nous pour discuter de vos besoins et obtenir une soumission personnalisée.
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-green-dark)] border border-[var(--color-green-light)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-beige-100)] transition-opacity hover:opacity-80"
+      >
+        Nous contacter
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

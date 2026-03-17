@@ -1,0 +1,162 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const AUX_BALCONS = [
+  { title: "Le Bistro", text: "Cuisine locale, bières de microbrasseries et programmation culturelle vivante — spectacles live, DJ sets et événements communautaires." },
+  { title: "Espace coworking", text: "Travaille depuis Charlevoix. WiFi haute vitesse, imprimante, ambiance chaleureuse — 5$ par jour, gratuit pour les clients de l'auberge." },
+  { title: "Terrasse et jardin", text: "Profite du grand jardin, des pétanques et des balcons avec vue imprenable sur les montagnes et le fleuve." },
+];
+
+const A_BSP = [
+  { title: "Centre-ville et galeries d'art", text: "Baie-Saint-Paul est connue pour ses nombreuses galeries d'art et ses boutiques de créateurs locaux. Promenade incontournable." },
+  { title: "Gastronomie locale", text: "Restaurants, boulangeries artisanales et épiceries fines — BSP est un paradis pour les amateurs de bonne cuisine québécoise." },
+  { title: "Randonnée pédestre", text: "Les sentiers des Hauts-Fonds et du Mont Tibasse offrent des vues spectaculaires sur le fleuve et la vallée de Charlevoix." },
+  { title: "Vélo et cyclotourisme", text: "La Route Verte passe par Baie-Saint-Paul. Location de vélos disponible à proximité pour explorer la région à ton rythme." },
+];
+
+const DANS_CHARLEVOIX = [
+  {
+    title: "Plein air",
+    text: "Le Massif de Charlevoix, station de ski et de plein air, propose vélo de montagne, randonnée et ski alpin à quelques kilomètres.",
+  },
+  {
+    title: "Agrotourisme",
+    text: "Fromageries, cidreries, fermes maraîchères — Charlevoix est l'une des régions agroalimentaires les plus reconnues du Québec.",
+  },
+  {
+    title: "Art et culture",
+    text: "Musée d'art contemporain de Baie-Saint-Paul, résidences d'artistes, festivals estivaux — une vie culturelle intense toute l'année.",
+  },
+  {
+    title: "Détente et bien-être",
+    text: "Spas, bains nordiques avec vue sur le fleuve, retreats de yoga — Charlevoix se prête parfaitement à la déconnexion et au ressourcement.",
+  },
+  {
+    title: "Observation des baleines",
+    text: "À Tadoussac ou depuis la rive à Baie-Saint-Paul, les baleines font parfois leur apparition. Croisières disponibles en été.",
+  },
+  {
+    title: "Train de Charlevoix",
+    text: "Le Train de Charlevoix relie Québec à La Malbaie en longeant le fleuve — une excursion exceptionnelle avec des paysages à couper le souffle.",
+  },
+];
+---
+
+<BaseLayout title="Quoi faire?" description="Découvrez quoi faire aux Balcons, à Baie-Saint-Paul et dans Charlevoix — plein air, agrotourisme, art, culture et détente." lang="fr">
+  <Navigation client:load currentPath="/quoi-faire" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — green-light */}
+    <section class="bg-[var(--color-green-light)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-charcoal)] mb-6">
+          Quoi faire?
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)] max-w-[800px]">
+          Que tu sois ici pour une nuit ou pour une semaine, il y a toujours quelque chose à découvrir — aux Balcons, à Baie-Saint-Paul ou dans toute la région de Charlevoix. Voici quelques idées pour t'inspirer.
+        </p>
+      </div>
+    </section>
+
+    {/* Aux Balcons */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          Aux Balcons
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-3">
+          {AUX_BALCONS.map((item) => (
+            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {item.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* À Baie-Saint-Paul */}
+    <section class="bg-white px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          À Baie-Saint-Paul
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {A_BSP.map((item) => (
+            <div class="flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {item.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Dans Charlevoix */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          Dans Charlevoix
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {DANS_CHARLEVOIX.map((item) => (
+            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {item.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CTA reservation */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
+        Prêt pour l'aventure?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Réserve ton séjour et laisse-toi surprendre par tout ce que Charlevoix a à offrir!
+      </p>
+      <a
+        href={RESERVATION_URL}
+        target="_blank"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+      >
+        Je réserve
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

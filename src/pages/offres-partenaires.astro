@@ -1,0 +1,107 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+// Placeholder categories to visualize the future grid
+const OFFER_CATEGORIES = [
+  { label: "Hébergement", description: "Promotions sur les séjours et packages spéciaux" },
+  { label: "Restaurants", description: "Rabais chez nos partenaires gastronomiques de Charlevoix" },
+  { label: "Activités", description: "Tarifs préférentiels sur les activités plein air et culturelles" },
+  { label: "Boutiques locales", description: "Offres exclusives chez nos partenaires artisans et commerçants" },
+];
+---
+
+<BaseLayout title="Offres partenaires et Promotions" description="Profitez des promotions et offres partenaires exclusives des Balcons — hébergement, restaurants et activités à Charlevoix." lang="fr">
+  <Navigation client:load currentPath="/offres-partenaires" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — yellow */}
+    <section class="bg-[var(--color-yellow-500)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-charcoal)] mb-6">
+          Offres partenaires &amp; Promotions
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)] max-w-[800px]">
+          On a négocié des offres exclusives avec nos partenaires locaux pour que tu profites au maximum de ton séjour en Charlevoix. Promotions saisonnières, packages hébergement et rabais partenaires — tout est ici.
+        </p>
+      </div>
+    </section>
+
+    {/* Offres section */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        {/* CMS notice */}
+        <div class="rounded-[32px] bg-[var(--color-yellow-500)]/30 border border-[var(--color-yellow-500)]/50 p-8 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)] mb-3">
+            Promotions et offres à venir
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+            Les promotions et offres partenaires seront gérées via Sanity CMS et affichées automatiquement ici. Abonne-toi à notre infolettre pour être alerté des nouvelles offres en priorité!
+          </p>
+        </div>
+
+        {/* Category placeholder grid */}
+        <div class="grid gap-6 sm:grid-cols-2">
+          {OFFER_CATEGORIES.map((cat) => (
+            <div class="rounded-[32px] bg-white p-8 flex flex-col gap-6 opacity-50">
+              {/* Placeholder offer card */}
+              <div class="flex items-center justify-between gap-4">
+                <div class="flex flex-col gap-1">
+                  <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/60">
+                    {cat.label}
+                  </span>
+                  <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                    Offre à venir
+                  </h3>
+                  <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]/70">
+                    {cat.description}
+                  </p>
+                </div>
+                <div class="shrink-0 rounded-full bg-[var(--color-yellow-500)] px-4 py-2 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]">
+                  —%
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CTA newsletter */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
+        Sois le premier informé des nouvelles offres
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Abonne-toi à notre infolettre pour recevoir les promotions exclusives en avant-première et planifier ton prochain séjour à Baie-Saint-Paul.
+      </p>
+      <a
+        href={RESERVATION_URL}
+        target="_blank"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+      >
+        Je réserve maintenant
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

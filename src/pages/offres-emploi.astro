@@ -1,0 +1,119 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const PERKS = [
+  {
+    title: "Milieu de vie unique",
+    text: "Travailler aux Balcons, c'est évoluer dans un lieu de vie culturel vibrant, entouré de gens passionnés et de voyageurs du monde entier.",
+  },
+  {
+    title: "Charlevoix à ta porte",
+    text: "Profite de l'une des plus belles régions du Québec — montagnes, fleuve, gastronomie, culture — tout ça en dehors de tes heures de travail.",
+  },
+  {
+    title: "Équipe soudée",
+    text: "Une petite équipe engagée, où chaque voix compte et où on travaille ensemble pour créer une expérience mémorable pour nos clients.",
+  },
+  {
+    title: "Développement et polyvalence",
+    text: "Chez nous, tu touches à tout. Service, accueil, événements, gestion — une expérience enrichissante pour ta carrière.",
+  },
+];
+---
+
+<BaseLayout title="Offres d'emploi" description="Rejoins l'équipe des Balcons à Baie-Saint-Paul — postes disponibles en hébergement, service et événements." lang="fr">
+  <Navigation client:load currentPath="/offres-emploi" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — green-dark */}
+    <section class="bg-[var(--color-green-dark)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-beige-100)] mb-6">
+          Offres d'emploi
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-beige-100)] max-w-[800px]">
+          Tu veux travailler dans un milieu convivial, culturel et ancré dans sa communauté au cœur de Charlevoix? On est toujours à la recherche de personnes passionnées pour rejoindre l'équipe des Balcons.
+        </p>
+      </div>
+    </section>
+
+    {/* Postes disponibles */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          Postes disponibles
+        </h2>
+
+        {/* Empty state */}
+        <div class="rounded-[32px] bg-[var(--color-green-light)] p-12 text-center">
+          <p class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)] mb-3">
+            Aucune offre pour le moment
+          </p>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]/70 max-w-[500px] mx-auto">
+            Il n'y a pas de poste affiché en ce moment. Mais ça ne t'empêche pas de nous envoyer ta candidature spontanée — on garde toujours les bons profils en tête!
+          </p>
+        </div>
+
+        {/* Spontaneous application CTA */}
+        <div class="rounded-[32px] bg-[var(--color-charcoal)] p-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-col gap-2">
+            <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-beige-100)]">
+              Candidature spontanée
+            </h3>
+            <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80">
+              Envoie-nous ton CV et une courte présentation — on adorait te rencontrer.
+            </p>
+          </div>
+          <a
+            href="mailto:info@lesbalcons.ca?subject=Candidature spontanée"
+            class="shrink-0 inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+          >
+            info@lesbalcons.ca
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* Pourquoi travailler aux Balcons */}
+    <section class="bg-white px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+          Pourquoi travailler aux Balcons?
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {PERKS.map((perk) => (
+            <div class="flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {perk.title}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {perk.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

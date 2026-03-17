@@ -1,0 +1,88 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+// Placeholder cards to visualize the future grid layout
+const PLACEHOLDER_POSTS = [
+  { category: "L'Auberge", title: "Titre de l'article à venir" },
+  { category: "Le Bistro", title: "Titre de l'article à venir" },
+  { category: "Charlevoix", title: "Titre de l'article à venir" },
+  { category: "L'Auberge", title: "Titre de l'article à venir" },
+  { category: "Événements", title: "Titre de l'article à venir" },
+  { category: "Quoi faire", title: "Titre de l'article à venir" },
+];
+---
+
+<BaseLayout title="Blogue" description="Le blogue des Balcons — Actualités, conseils de voyage et vie à Baie-Saint-Paul en Charlevoix." lang="fr">
+  <Navigation client:load currentPath="/blogue" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — green-dark */}
+    <section class="bg-[var(--color-green-dark)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-beige-100)] mb-6">
+          Blogue
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-beige-100)] max-w-[800px]">
+          Actualités des Balcons, conseils pour ton séjour à Baie-Saint-Paul, découvertes en Charlevoix et coulisses de notre quotidien.
+        </p>
+      </div>
+    </section>
+
+    {/* Articles grid */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        {/* CMS notice */}
+        <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)] mb-3">
+            Articles à venir
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+            Les articles du blogue seront gérés via Sanity CMS et affichés automatiquement ici. Abonne-toi à notre infolettre pour être le premier informé des nouvelles publications!
+          </p>
+        </div>
+
+        {/* Placeholder card grid */}
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {PLACEHOLDER_POSTS.map((post) => (
+            <div class="rounded-[32px] bg-white flex flex-col overflow-hidden opacity-40">
+              {/* Placeholder image */}
+              <div class="aspect-[16/9] bg-[var(--color-green-light)]" />
+              <div class="p-6 flex flex-col gap-2">
+                <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/60">
+                  {post.category}
+                </span>
+                <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                  {post.title}
+                </h3>
+                <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/60">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Contenu à venir via Sanity CMS.
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>

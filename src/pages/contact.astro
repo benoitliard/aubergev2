@@ -1,0 +1,186 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+
+const FAQ = [
+  {
+    question: "À quelle heure est le check-in et le check-out?",
+    answer: "Le check-in se fait entre 15h et 21h. Le check-out est avant 11h. Si tu arrives en dehors de ces heures, contacte-nous à l'avance pour s'arranger.",
+  },
+  {
+    question: "Y a-t-il un stationnement sur place?",
+    answer: "Oui, un stationnement gratuit est disponible à l'arrière du bâtiment pour les clients de l'auberge.",
+  },
+  {
+    question: "Les animaux de compagnie sont-ils acceptés?",
+    answer: "Les animaux sont les bienvenus sur la terrasse du Bistro, mais ne sont pas acceptés dans les chambres ni dans les espaces communs de l'auberge. Pour les groupes privés, contactez-nous.",
+  },
+  {
+    question: "Y a-t-il une cuisine pour les clients?",
+    answer: "Oui! Une grande cuisine commune entièrement équipée est disponible gratuitement pour tous les clients de l'auberge. Micro-ondes, bouilloire, réfrigérateur et ustensiles fournis.",
+  },
+  {
+    question: "Le WiFi est-il inclus?",
+    answer: "Oui, le WiFi haute vitesse est inclus et gratuit pour tous les clients de l'auberge.",
+  },
+  {
+    question: "Proposez-vous des activités ou excursions?",
+    answer: "Nous pouvons vous recommander des activités et partenaires locaux — randonnée, vélo, agrotourisme, kayak, visites culturelles. Demandez à la réception lors de votre arrivée.",
+  },
+  {
+    question: "Est-il possible de laisser ses bagages avant ou après le check-in?",
+    answer: "Oui, nous offrons un service de garde-bagages gratuit. Passe simplement à la réception.",
+  },
+  {
+    question: "Acceptez-vous les groupes et les réservations de groupe?",
+    answer: "Absolument! Pour les groupes, contactez-nous directement à info@lesbalcons.ca pour discuter de vos besoins et obtenir un tarif de groupe.",
+  },
+];
+---
+
+<BaseLayout title="Contact & FAQ" description="Contactez Les Balcons Auberge & Bistro à Baie-Saint-Paul. Adresse, téléphone, email et foire aux questions." lang="fr">
+  <Navigation client:load currentPath="/contact" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero section — green-dark */}
+    <section class="bg-[var(--color-green-dark)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-beige-100)] mb-6">
+          Contact
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-beige-100)] max-w-[800px]">
+          Une question? Une demande de groupe ou d'événement? On est là pour toi. Passe nous voir, appelle ou écris-nous!
+        </p>
+      </div>
+    </section>
+
+    {/* Informations de contact */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] grid gap-12 lg:grid-cols-2">
+        {/* Contact info */}
+        <div class="flex flex-col gap-8">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Nous joindre
+          </h2>
+          <div class="flex flex-col gap-4">
+            <div class="rounded-[32px] bg-white p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                Adresse
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                63 Rue Ambroise Fafard<br />
+                Baie-Saint-Paul, QC G3Z 2J7
+              </p>
+            </div>
+            <div class="rounded-[32px] bg-white p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                Téléphone et courriel
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                <a href="tel:+15817052176" class="underline hover:opacity-70">+1 581-705-2176</a>
+              </p>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                <a href="mailto:info@lesbalcons.ca" class="underline hover:opacity-70">info@lesbalcons.ca</a>
+              </p>
+            </div>
+            <div class="rounded-[32px] bg-white p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                Réseaux sociaux
+              </h3>
+              <div class="flex flex-col gap-2">
+                <a
+                  href="https://www.facebook.com/aubergedesbalcons"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)] underline hover:opacity-70"
+                >
+                  Facebook — @aubergedesbalcons
+                </a>
+                <a
+                  href="https://www.instagram.com/lesbalcons"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)] underline hover:opacity-70"
+                >
+                  Instagram — @lesbalcons
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Map placeholder */}
+        <div class="flex flex-col gap-8">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Nous trouver
+          </h2>
+          <div class="rounded-[32px] bg-[var(--color-green-light)] aspect-square flex items-center justify-center">
+            <div class="text-center px-8">
+              <p class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)] mb-2">
+                63 Rue Ambroise Fafard
+              </p>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]/70">
+                Carte interactive à venir
+              </p>
+              <a
+                href="https://maps.google.com/?q=63+Rue+Ambroise+Fafard,+Baie-Saint-Paul,+QC"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--color-green-dark)] px-6 py-3 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-beige-100)] transition-opacity hover:opacity-80"
+              >
+                Ouvrir dans Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* FAQ */}
+    <section class="bg-white px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
+        <div class="flex flex-col gap-4 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Foire aux questions
+          </h2>
+          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+            Tu as une question? Elle est sûrement déjà là. Sinon, écris-nous!
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          {FAQ.map((item) => (
+            <div class="rounded-[32px] bg-[var(--color-beige-100)] p-8 flex flex-col gap-3">
+              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+                {item.question}
+              </h3>
+              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
+                {item.answer}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>
