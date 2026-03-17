@@ -1,0 +1,19 @@
+appId: browser
+---
+# Test: Bilingual support (FR/EN)
+
+# Test English version at /en/
+- launchApp:
+    arguments:
+      - "--new-tab"
+      - "https://aubergev2.benoit-liard.workers.dev/en/"
+
+- assertVisible: "Les Balcons"
+- assertVisible: "Inn & Cultural Bistro"
+- takeScreenshot: "en-homepage"
+
+# Test French version (default /)
+- openLink: "https://aubergev2.benoit-liard.workers.dev/"
+- assertVisible: "Les Balcons"
+- assertVisible: "Auberge & Bistro culturel"
+- takeScreenshot: "fr-homepage"

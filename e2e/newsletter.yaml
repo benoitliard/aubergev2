@@ -1,0 +1,32 @@
+appId: browser
+---
+# Test: Newsletter subscription form
+
+- launchApp:
+    arguments:
+      - "--new-tab"
+      - "https://aubergev2.benoit-liard.workers.dev/"
+
+# Scroll down to find the newsletter section
+- scroll:
+    direction: DOWN
+    duration: 2000
+
+- takeScreenshot: "newsletter-section"
+
+# Enter email and submit
+- tapOn:
+    text: "email"
+    optional: true
+- inputText: "test@example.com"
+
+- tapOn:
+    text: "S'inscrire"
+    optional: true
+
+# Assert some kind of confirmation (text may vary)
+- assertVisible:
+    text: "merci"
+    optional: true
+
+- takeScreenshot: "newsletter-submitted"

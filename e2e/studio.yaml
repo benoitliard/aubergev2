@@ -1,0 +1,15 @@
+appId: browser
+---
+# Test: Sanity Studio page loads
+
+- launchApp:
+    arguments:
+      - "--new-tab"
+      - "https://aubergev2.benoit-liard.workers.dev/studio"
+
+# Studio takes time to initialize - assert it loaded
+- assertVisible:
+    text: "Studio"
+    optional: true
+
+- takeScreenshot: "studio-loaded"

@@ -1,0 +1,23 @@
+appId: browser
+---
+# Test: Navigation between pages
+# Note: Update nav link text to match the actual navigation labels in the site
+
+- launchApp:
+    arguments:
+      - "--new-tab"
+      - "https://aubergev2.benoit-liard.workers.dev/"
+
+# Verify homepage loads
+- assertVisible: "Les Balcons"
+- takeScreenshot: "navigation-homepage"
+
+# Navigate to English version
+- openLink: "https://aubergev2.benoit-liard.workers.dev/en/"
+- assertVisible: "Inn & Cultural Bistro"
+- takeScreenshot: "navigation-en"
+
+# Navigate back to French
+- openLink: "https://aubergev2.benoit-liard.workers.dev/"
+- assertVisible: "Auberge & Bistro culturel"
+- takeScreenshot: "navigation-fr"

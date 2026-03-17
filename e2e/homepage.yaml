@@ -1,0 +1,14 @@
+appId: browser
+---
+# Test: Homepage loads correctly
+# Tests that the Les Balcons French homepage renders all key content
+
+- launchApp:
+    arguments:
+      - "--new-tab"
+      - "https://aubergev2.benoit-liard.workers.dev/"
+
+- assertVisible: "Les Balcons"
+- assertVisible: "Auberge & Bistro culturel"
+
+- takeScreenshot: "homepage-loaded"
