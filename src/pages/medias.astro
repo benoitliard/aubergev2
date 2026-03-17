@@ -1,0 +1,131 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Navigation } from "../components/layout/Navigation";
+import { Footer } from "../components/layout/Footer";
+import { PartnersBar } from "../components/sections/PartnersBar";
+import { FloatingCTA } from "../components/ui/FloatingCTA";
+import Newsletter from "../components/sections/Newsletter";
+
+const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=web";
+
+const PARTNERS = [
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+  { name: "SODEC Québec", logo: "/partners/sodec-quebec.png", url: "https://www.sodec.gouv.qc.ca" },
+  { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
+];
+---
+
+<BaseLayout title="Médias" description="Espace médias des Balcons — Matériel de presse, logos et informations pour les journalistes et partenaires." lang="fr">
+  <Navigation client:load currentPath="/medias" lang="fr" reservationUrl={RESERVATION_URL} />
+
+  <main>
+    {/* Hero */}
+    <section class="bg-[var(--color-green-dark)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px]">
+        <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-beige-100)] mb-6">
+          Médias
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-beige-100)] max-w-[800px]">
+          Tout le matériel nécessaire pour parler de nous. Journalistes, blogueurs et partenaires, n'hésitez pas à nous contacter pour toute demande de presse.
+        </p>
+      </div>
+    </section>
+
+    {/* À propos rapide */}
+    <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
+      <div class="mx-auto max-w-[1102px] flex flex-col gap-16">
+        {/* Info presse */}
+        <div class="flex flex-col gap-6 max-w-[800px]">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            En bref
+          </h2>
+          <div class="flex flex-col gap-4 font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+            <p>
+              <strong>Les Balcons</strong> est une auberge et bistro culturel situé au cœur de Baie-Saint-Paul dans Charlevoix. Depuis 2017, l'établissement accueille voyageurs, artistes et communauté locale dans un lieu convivial offrant hébergement abordable, cuisine locale et programmation culturelle à l'année.
+            </p>
+            <p>
+              L'auberge propose des chambres privées, dortoirs et une suite familiale. Le Bistro est ouvert du mercredi au samedi en soirée avec spectacles live, DJ sets et bières de microbrasseries québécoises.
+            </p>
+          </div>
+        </div>
+
+        {/* Faits saillants */}
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { stat: "2017", label: "Année de fondation" },
+            { stat: "63", label: "Rue Ambroise Fafard" },
+            { stat: "4", label: "Types d'hébergement" },
+            { stat: "7j/7", label: "Espace coworking" },
+          ].map((item) => (
+            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 text-center flex flex-col gap-2">
+              <span class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] text-[var(--color-charcoal)]">
+                {item.stat}
+              </span>
+              <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]">
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Logos téléchargeables */}
+        <div class="flex flex-col gap-8">
+          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
+            Logos & ressources
+          </h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: "Logo complet (vert)", file: "/logo-dark.svg", bg: "bg-[var(--color-beige-100)]" },
+              { name: "Logo complet (beige)", file: "/logo.svg", bg: "bg-[var(--color-green-dark)]" },
+              { name: "Logo footer (décoratif)", file: "/logo-footer.svg", bg: "bg-[var(--color-green-dark)]" },
+              { name: "Mascotte (vert)", file: "/mascot.svg", bg: "bg-[var(--color-beige-100)]" },
+              { name: "Favicon", file: "/favicon.svg", bg: "bg-white" },
+            ].map((logo) => (
+              <a
+                href={logo.file}
+                download
+                class="group flex flex-col gap-4 rounded-[32px] border-2 border-transparent bg-white p-6 transition-all hover:border-[var(--color-green-dark)]"
+              >
+                <div class={`${logo.bg} rounded-2xl p-6 flex items-center justify-center h-[120px]`}>
+                  <img src={logo.file} alt={logo.name} class="max-h-full max-w-full object-contain" />
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]">
+                    {logo.name}
+                  </span>
+                  <span class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-xs)] text-[var(--color-green-dark)] opacity-0 group-hover:opacity-100 transition-opacity">
+                    SVG ↓
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Contact presse */}
+    <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-4">
+        Contact presse
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
+        Pour toute demande média, entrevue ou collaboration, contactez-nous directement.
+      </p>
+      <a
+        href="mailto:info@lesbalcons.ca"
+        class="inline-flex items-center justify-center rounded-full bg-[var(--color-yellow-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+      >
+        info@lesbalcons.ca
+      </a>
+    </section>
+
+    <Newsletter client:load />
+  </main>
+
+  <Footer client:load lang="fr" />
+  <PartnersBar partners={PARTNERS} />
+  <FloatingCTA href={RESERVATION_URL} />
+</BaseLayout>
