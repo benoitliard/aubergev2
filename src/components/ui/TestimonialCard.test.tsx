@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { TestimonialCard } from './TestimonialCard';
 
 const defaultProps = {
+  category: { label: "L'Auberge", color: 'var(--color-yellow-500)' },
   text: 'Un séjour inoubliable dans ce magnifique endroit.',
   author: 'Marie Tremblay',
 };
@@ -12,6 +13,33 @@ describe('TestimonialCard', () => {
     it('renders an article element', () => {
       render(<TestimonialCard {...defaultProps} />);
       expect(screen.getByRole('article')).toBeInTheDocument();
+    });
+  });
+
+  describe('category pill', () => {
+    it('renders the category label', () => {
+      render(<TestimonialCard {...defaultProps} />);
+      expect(screen.getByText("L'Auberge")).toBeInTheDocument();
+    });
+
+    it('applies the category color as background', () => {
+      render(<TestimonialCard {...defaultProps} />);
+      const pill = screen.getByText("L'Auberge");
+      expect(pill).toHaveStyle({ backgroundColor: 'var(--color-yellow-500)' });
+    });
+  });
+
+  describe('text prop', () => {
+    it('renders the testimonial text', () => {
+      render(<TestimonialCard {...defaultProps} text="Superbe experience!" />);
+      expect(screen.getByText('Superbe experience!')).toBeInTheDocument();
+    });
+  });
+
+  describe('author prop', () => {
+    it('renders the author name', () => {
+      render(<TestimonialCard {...defaultProps} author="Sophie Leblanc" />);
+      expect(screen.getByText('Sophie Leblanc')).toBeInTheDocument();
     });
   });
 
@@ -26,32 +54,6 @@ describe('TestimonialCard', () => {
     it('wraps content in a blockquote', () => {
       render(<TestimonialCard {...defaultProps} />);
       expect(screen.getByRole('article').querySelector('blockquote')).toBeInTheDocument();
-    });
-  });
-
-  describe('text prop', () => {
-    it('renders the testimonial text', () => {
-      render(<TestimonialCard {...defaultProps} text="Superbe experience!" />);
-      expect(screen.getByText(/Superbe experience!/)).toBeInTheDocument();
-    });
-  });
-
-  describe('author prop', () => {
-    it('renders the author name', () => {
-      render(<TestimonialCard {...defaultProps} author="Sophie Leblanc" />);
-      expect(screen.getByText('Sophie Leblanc')).toBeInTheDocument();
-    });
-  });
-
-  describe('source prop', () => {
-    it('renders the source when provided', () => {
-      render(<TestimonialCard {...defaultProps} source="Google Reviews" />);
-      expect(screen.getByText('Google Reviews')).toBeInTheDocument();
-    });
-
-    it('does not render a source element when not provided', () => {
-      render(<TestimonialCard {...defaultProps} />);
-      expect(screen.queryByText('Google Reviews')).not.toBeInTheDocument();
     });
   });
 

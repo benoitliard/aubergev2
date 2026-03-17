@@ -1,56 +1,91 @@
-import React from "react";
+/**
+ * TestimonialCard — Single testimonial card with category pill.
+ *
+ * Usage:
+ * ```tsx
+ * <TestimonialCard
+ *   category={{ label: "L'Auberge", color: "var(--color-yellow-500)" }}
+ *   text="C'est un endroit fantastique!"
+ *   author="Françoise L."
+ * />
+ * ```
+ */
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface TestimonialCategory {
+  label: string;
+  /** CSS color value, e.g. "var(--color-yellow-500)" */
+  color: string;
+}
 
 export interface TestimonialCardProps {
+  /** Category pill displayed at the top of the card. */
+  category: TestimonialCategory;
+  /** Testimonial quote text. */
   text: string;
+  /** Author name. */
   author: string;
-  source?: string;
   className?: string;
 }
 
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
 export function TestimonialCard({
+  category,
   text,
   author,
-  source,
   className = "",
 }: TestimonialCardProps) {
-  const classes = [
-    "relative",
-    "bg-white",
-    "rounded-2xl",
-    "p-8",
-    "shadow-sm",
-    "border border-[var(--color-beige-100)]",
-    "border-l-4 border-l-[var(--color-green-dark)]",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <article className={classes} aria-label={`Témoignage de ${author}`}>
-      <blockquote className="m-0">
+    <article
+      aria-label={`Témoignage de ${author}`}
+      className={[
+        "flex h-full flex-col gap-4 rounded-[32px] bg-white p-6",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {/* Category pill */}
+      <span
+        className={[
+          "inline-flex w-fit items-center justify-center",
+          "rounded-full px-4 py-4",
+          "font-[family-name:var(--font-title)] font-extrabold",
+          "text-[length:var(--text-body-md)] leading-[1.5]",
+          "text-[var(--color-charcoal)]",
+        ].join(" ")}
+        style={{ backgroundColor: category.color }}
+      >
+        {category.label}
+      </span>
+
+      {/* Quote + author */}
+      <blockquote className="m-0 flex flex-1 flex-col gap-4 p-6">
         <p
-          className="text-[length:var(--text-body-sm)] font-normal text-[var(--color-charcoal)] leading-relaxed mb-6"
-          style={{ fontFamily: "var(--font-body)" }}
+          className={[
+            "font-[family-name:var(--font-body)]",
+            "text-[length:var(--text-body-lg)] leading-[1.5]",
+            "text-[var(--color-charcoal)]",
+          ].join(" ")}
         >
-          &laquo;&nbsp;{text}&nbsp;&raquo;
+          {text}
         </p>
         <footer>
-          <cite className="not-italic">
-            <span
-              className="block text-[length:var(--text-body-sm)] font-extrabold text-[var(--color-charcoal)]"
-              style={{ fontFamily: "var(--font-title)" }}
-            >
-              {author}
-            </span>
-            {source && (
-              <span
-                className="block text-[14px] text-[var(--color-charcoal)]/60 mt-1"
-                style={{ fontFamily: "var(--font-body)" }}
-              >
-                {source}
-              </span>
-            )}
+          <cite
+            className={[
+              "not-italic",
+              "font-[family-name:var(--font-body)] font-extrabold",
+              "text-[length:var(--text-body-lg)] leading-[1.5]",
+              "text-[var(--color-charcoal)]",
+            ].join(" ")}
+          >
+            {author}
           </cite>
         </footer>
       </blockquote>

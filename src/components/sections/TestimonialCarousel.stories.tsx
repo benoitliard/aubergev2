@@ -10,7 +10,7 @@ const meta: Meta<typeof TestimonialCarousel> = {
     docs: {
       description: {
         component:
-          "Section carrousel de témoignages clients. Affiche 2 cartes côte à côte sur desktop, 1 sur mobile. Navigation avec ArrowButton et indicateurs visuels.",
+          "Carrousel de témoignages clients. Cards en 804px avec overflow horizontal, pill catégorie (L'Auberge/Le Bistro), navigation compteur + flèches en bas à droite.",
       },
     },
   },
@@ -21,7 +21,7 @@ const meta: Meta<typeof TestimonialCarousel> = {
     },
     testimonials: {
       control: "object",
-      description: "Tableau de témoignages",
+      description: "Tableau de témoignages avec catégorie",
     },
   },
 };
@@ -30,29 +30,29 @@ export default meta;
 type Story = StoryObj<typeof TestimonialCarousel>;
 
 // ---------------------------------------------------------------------------
-// Placeholder data
+// Data
 // ---------------------------------------------------------------------------
 
 const SAMPLE_TESTIMONIALS = [
   {
-    text: "Un endroit absolument magnifique. Le personnel est aux petits soins et la cuisine est exceptionnelle. Nous reviendrons sans hésiter.",
-    author: "Marie-Claire Dupont",
-    source: "Google",
+    category: { label: "L'Auberge", color: "var(--color-yellow-500)" },
+    text: "« C'est un endroit fantastique! J'avais une chambre individuelle de belle grandeur et lumineuse. Hyper propre sdb et douche tout est nickel. Cuisine immense et bien équipée. Des balcons partout. Vue imprenable sur un immense jardin. J'ai hâte d'y retourner. »",
+    author: "Françoise L.",
   },
   {
-    text: "Le meilleur séjour de notre vie. Les balcons avec vue sur les montagnes sont à couper le souffle, et l'auberge propose une atmosphère chaleureuse et conviviale.",
-    author: "Jean-Pierre Martin",
-    source: "TripAdvisor",
+    category: { label: "Le Bistro", color: "var(--color-purple-500)" },
+    text: "« Bel endroit avec une super vibe! J'ai adoré le 5@7 avec un DJ. Beau menu, simple mais avec de bonnes options végé. Bons choix de drinks. Super expérience. »",
+    author: "Cécile L.",
   },
   {
-    text: "Une expérience gastronomique inoubliable au Bistro. Les produits locaux mis en valeur avec talent, dans un cadre naturel exceptionnel.",
-    author: "Sophie Leroux",
-    source: "Google",
+    category: { label: "L'Auberge", color: "var(--color-yellow-500)" },
+    text: "« C'est un endroit fantastique! J'avais une chambre individuelle de belle grandeur et lumineuse. Hyper propre sdb et douche tout est nickel. Cuisine immense et bien équipée. Des balcons partout. Vue imprenable sur un immense jardin. J'ai hâte d'y retourner. »",
+    author: "Françoise L.",
   },
   {
-    text: "Accueil chaleureux, chambre confortable et petit-déjeuner délicieux en terrasse avec panorama sur les sommets. Une adresse que nous recommandons à tous.",
-    author: "Thomas et Isabelle Berger",
-    source: "Booking",
+    category: { label: "Le Bistro", color: "var(--color-purple-500)" },
+    text: "« Le meilleur séjour de notre vie. Les balcons avec vue sur les montagnes sont à couper le souffle, et l'auberge propose une atmosphère chaleureuse et conviviale. »",
+    author: "Jean-Pierre M.",
   },
 ];
 
@@ -63,7 +63,6 @@ const SAMPLE_TESTIMONIALS = [
 export const Default: Story = {
   name: "Default — 4 Testimonials",
   args: {
-    title: "Ce que nos clients disent de nous",
     testimonials: SAMPLE_TESTIMONIALS,
   },
 };
@@ -71,15 +70,6 @@ export const Default: Story = {
 export const TwoTestimonials: Story = {
   name: "Two Testimonials",
   args: {
-    title: "Ce que nos clients disent de nous",
     testimonials: SAMPLE_TESTIMONIALS.slice(0, 2),
-  },
-};
-
-export const CustomTitle: Story = {
-  name: "Custom Title",
-  args: {
-    title: "Ils nous font confiance",
-    testimonials: SAMPLE_TESTIMONIALS,
   },
 };

@@ -10,68 +10,50 @@ const meta: Meta<typeof TestimonialCard> = {
     docs: {
       description: {
         component:
-          "Carte de témoignage client avec accent vert sur le côté gauche, guillemets français, nom de l'auteur et source optionnelle.",
+          "Carte de témoignage client avec pill de catégorie (L'Auberge ou Le Bistro), citation et nom de l'auteur. Coins arrondis 32px, fond blanc.",
       },
     },
   },
   argTypes: {
+    category: {
+      control: "object",
+      description: "Catégorie affichée en pill (label + couleur)",
+    },
     text: {
       control: "text",
       description: "Contenu du témoignage",
     },
     author: {
       control: "text",
-      description: "Nom de l'auteur du témoignage",
-    },
-    source: {
-      control: "text",
-      description: "Plateforme ou source du témoignage (ex: Google, TripAdvisor)",
-    },
-    className: {
-      control: "text",
-      description: "Classes Tailwind supplémentaires",
+      description: "Nom de l'auteur",
     },
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 804, maxWidth: "100%" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof TestimonialCard>;
 
-// ---------------------------------------------------------------------------
-// Stories
-// ---------------------------------------------------------------------------
-
-export const Default: Story = {
-  name: "Default",
+export const Auberge: Story = {
+  name: "L'Auberge",
   args: {
-    text: "Un endroit absolument magnifique. Le personnel est aux petits soins et la cuisine est exceptionnelle. Nous reviendrons sans hésiter.",
-    author: "Marie-Claire Dupont",
-    source: "Google",
+    category: { label: "L'Auberge", color: "var(--color-yellow-500)" },
+    text: "« C'est un endroit fantastique! J'avais une chambre individuelle de belle grandeur et lumineuse. Hyper propre sdb et douche tout est nickel. Cuisine immense et bien équipée. Des balcons partout. Vue imprenable sur un immense jardin. J'ai hâte d'y retourner. »",
+    author: "Françoise L.",
   },
 };
 
-export const WithoutSource: Story = {
-  name: "Without Source",
+export const Bistro: Story = {
+  name: "Le Bistro",
   args: {
-    text: "Une expérience inoubliable au cœur de la nature. Les balcons avec vue sur les montagnes sont à couper le souffle.",
-    author: "Jean-Pierre Martin",
-  },
-};
-
-export const LongText: Story = {
-  name: "Long Text",
-  args: {
-    text: "Nous avons séjourné aux Balcons pendant notre voyage de noces et ce fut une expérience extraordinaire. La chambre était décorée avec goût, le petit-déjeuner servi en terrasse avec vue sur les sommets était un moment de pur bonheur. L'équipe, toujours disponible et attentionnée, a su rendre chaque instant magique. Le bistro propose une cuisine raffinée mettant en valeur les produits locaux. Une adresse que nous recommandons chaleureusement à tous ceux qui cherchent une escapade hors du commun.",
-    author: "Sophie et Thomas Berger",
-    source: "TripAdvisor",
-  },
-};
-
-export const TripAdvisor: Story = {
-  name: "TripAdvisor Review",
-  args: {
-    text: "Le meilleur hôtel que j'ai visité dans la région. Cadre naturel exceptionnel, accueil chaleureux et cuisine délicieuse.",
-    author: "Luc Fontaine",
-    source: "TripAdvisor",
+    category: { label: "Le Bistro", color: "var(--color-purple-500)" },
+    text: "« Bel endroit avec une super vibe! J'ai adoré le 5@7 avec un DJ. Beau menu, simple mais avec de bonnes options végé. Bons choix de drinks. Super expérience. »",
+    author: "Cécile L.",
   },
 };

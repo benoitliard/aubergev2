@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TestimonialCarousel } from './TestimonialCarousel';
 
 const testimonials = [
-  { text: 'Un séjour inoubliable.', author: 'Marie T.' },
-  { text: 'Excellent rapport qualité-prix.', author: 'Jean D.', source: 'Google' },
-  { text: 'Le bistro était fantastique.', author: 'Sophie L.' },
+  { category: { label: "L'Auberge", color: 'var(--color-yellow-500)' }, text: 'Un séjour inoubliable.', author: 'Marie T.' },
+  { category: { label: 'Le Bistro', color: 'var(--color-purple-500)' }, text: 'Excellent rapport qualité-prix.', author: 'Jean D.' },
+  { category: { label: "L'Auberge", color: 'var(--color-yellow-500)' }, text: 'Le bistro était fantastique.', author: 'Sophie L.' },
 ];
 
 // ResizeObserver is not available in jsdom
@@ -61,9 +61,17 @@ describe('TestimonialCarousel', () => {
       expect(screen.getByText('Jean D.')).toBeInTheDocument();
     });
 
-    it('renders source when provided', () => {
+    it('renders category pills', () => {
       render(<TestimonialCarousel testimonials={testimonials} />);
-      expect(screen.getByText('Google')).toBeInTheDocument();
+      expect(screen.getAllByText("L'Auberge")).toHaveLength(2);
+      expect(screen.getByText('Le Bistro')).toBeInTheDocument();
+    });
+  });
+
+  describe('counter', () => {
+    it('shows the current position counter', () => {
+      render(<TestimonialCarousel testimonials={testimonials} />);
+      expect(screen.getByText('1 / 3')).toBeInTheDocument();
     });
   });
 
@@ -82,6 +90,7 @@ describe('TestimonialCarousel', () => {
       const user = userEvent.setup();
       render(<TestimonialCarousel testimonials={testimonials} />);
       await user.click(screen.getByRole('button', { name: 'Next' }));
+      expect(screen.getByText('2 / 3')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Previous' })).not.toBeDisabled();
     });
 
@@ -90,30 +99,6 @@ describe('TestimonialCarousel', () => {
       const single = [testimonials[0]];
       render(<TestimonialCarousel testimonials={single} />);
       expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled();
-    });
-  });
-
-  describe('dot indicators', () => {
-    it('renders a dot for each testimonial', () => {
-      render(<TestimonialCarousel testimonials={testimonials} />);
-      const tabs = screen.getAllByRole('tab');
-      expect(tabs).toHaveLength(testimonials.length);
-    });
-
-    it('marks the first dot as selected on initial render', () => {
-      render(<TestimonialCarousel testimonials={testimonials} />);
-      const tabs = screen.getAllByRole('tab');
-      expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
-      expect(tabs[1]).toHaveAttribute('aria-selected', 'false');
-    });
-
-    it('updates selected dot when a dot is clicked', async () => {
-      const user = userEvent.setup();
-      render(<TestimonialCarousel testimonials={testimonials} />);
-      const tabs = screen.getAllByRole('tab');
-      await user.click(tabs[2]);
-      expect(tabs[2]).toHaveAttribute('aria-selected', 'true');
-      expect(tabs[0]).toHaveAttribute('aria-selected', 'false');
     });
   });
 });
