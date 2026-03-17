@@ -139,7 +139,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
       aria-labelledby="newsletter-heading"
       className="bg-[var(--color-beige-100)] px-4 py-12 desktop:px-[160px] desktop:py-[88px]"
     >
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 desktop:gap-10">
         {/* Mascot + text block */}
         <div className="flex flex-col items-center gap-6">
           {/* Mascot icon */}
@@ -148,7 +148,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
             alt=""
             width={160}
             height={80}
-            className="h-auto w-40"
+            className="h-auto w-[110px] desktop:w-40"
             aria-hidden="true"
           />
 
@@ -284,7 +284,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
             <button
               type="submit"
               className={[
-                "shrink-0 rounded-full bg-[var(--color-charcoal)] px-8 py-4",
+                "w-full desktop:w-auto shrink-0 rounded-full bg-[var(--color-charcoal)] px-8 py-4",
                 "font-[family-name:var(--font-title)] text-[length:var(--text-body-sm)] font-extrabold text-[var(--color-beige-100)]",
                 "transition-opacity hover:opacity-80",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-charcoal)] focus-visible:ring-offset-2",
