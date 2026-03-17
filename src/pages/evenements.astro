@@ -34,6 +34,25 @@ const events = await sanityClient.fetch(
   { now }
 );
 
+// Local event images mapped by slug
+const EVENT_IMAGES: Record<string, string> = {
+  "5a7-dj-maude-arsenault": "/images/events/01_maude_arsenault.jpg",
+  "charlotte-brousseau": "/images/events/02_charlotte_brousseau.jpg",
+  "saint-patrick": "/images/events/03_saint_patrick.jpg",
+  "soiree-swing-mars": "/images/events/04_soiree_swing_mars.jpg",
+  "sunset-club-cyr": "/images/events/05_sunset_club_cyr.jpg",
+  "la-fuite": "/images/events/06_la_fuite.jpg",
+  "afters-cabaret-festif": "/images/events/07_afters_cabaret_festif.jpg",
+  "felixe": "/images/events/08_felixe.jpg",
+  "5a7-slim-tony": "/images/events/09_slim_tony.jpg",
+  "blamm-sandra-contour": "/images/events/10_blamm_sandra_contour.jpg",
+  "soiree-swing-avril": "/images/events/11_soiree_swing_avril.jpg",
+  "romeo-rhubarbe": "/images/events/12_romeo_rhubarbe.jpg",
+  "fred-peloquin-andrea-gozzi": "/images/events/13_fred_peloquin_andrea_gozzi.jpg",
+  "cabaret-legumes": "/images/events/14_cabaret_legumes.jpg",
+  "lea-jarry-trio": "/images/events/15_lea_jarry_trio.jpg",
+};
+
 const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
   musique: { label: "Musique", color: "var(--color-purple-500)" },
   spectacle: { label: "Spectacle", color: "var(--color-yellow-500)" },
@@ -85,7 +104,20 @@ function formatTime(dateStr: string): string {
             {events.map((event: any) => {
               const cat = CATEGORY_LABELS[event.category] || CATEGORY_LABELS.autre;
               return (
-                <article class="flex flex-col lg:flex-row gap-6 rounded-[32px] bg-white p-6 lg:p-8">
+                <article class="flex flex-col rounded-[32px] bg-white overflow-hidden">
+                  {/* Event image */}
+                  {(event.imageUrl || EVENT_IMAGES[event.slug]) && (
+                    <div class="relative h-[200px] lg:h-[280px] w-full">
+                      <img
+                        src={event.imageUrl || EVENT_IMAGES[event.slug]}
+                        alt={event.title}
+                        class="absolute inset-0 h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
+                  <div class="flex flex-col lg:flex-row gap-6 p-6 lg:p-8">
                   {/* Date block */}
                   <div class="flex shrink-0 flex-col items-center justify-center rounded-2xl bg-[var(--color-green-dark)] px-6 py-4 text-center lg:w-[140px]">
                     <span class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1] text-[var(--color-beige-100)]">
@@ -140,6 +172,7 @@ function formatTime(dateStr: string): string {
                         </a>
                       )}
                     </div>
+                  </div>
                   </div>
                 </article>
               );

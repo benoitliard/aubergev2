@@ -1,5 +1,5 @@
 /**
- * Seed Sanity with sample events for the Événements page.
+ * Seed Sanity with real events from aubergedesbalcons.com/les-evenements/
  *
  * Usage:
  *   SANITY_TOKEN=sk... node scripts/seed-events.mjs
@@ -15,144 +15,177 @@ const client = createClient({
   useCdn: false,
 });
 
-// Helper to create dates relative to today
-function futureDate(daysFromNow, hour = 20, minute = 0) {
-  const d = new Date();
-  d.setDate(d.getDate() + daysFromNow);
-  d.setHours(hour, minute, 0, 0);
-  return d.toISOString();
-}
-
-function pastDate(daysAgo, hour = 20, minute = 0) {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  d.setHours(hour, minute, 0, 0);
-  return d.toISOString();
-}
-
 const events = [
-  // === UPCOMING EVENTS ===
   {
     _type: "event",
-    title: {
-      fr: "Soirée acoustique avec Marie-Ève Trudel",
-      en: "Acoustic evening with Marie-Ève Trudel",
-    },
-    slug: { current: "soiree-acoustique-marie-eve-trudel" },
-    date: futureDate(3),
+    title: { fr: "Jeudi 5@7 DJ avec MAUDE ARSENAULT", en: "Thursday 5@7 DJ with MAUDE ARSENAULT" },
+    slug: { current: "5a7-dj-maude-arsenault" },
+    date: "2026-03-12T17:00:00-04:00",
     description: {
-      fr: "Une soirée intime de chanson québécoise folk et acoustique. Marie-Ève Trudel nous offre ses compositions originales inspirées de Charlevoix. Entrée libre, consommation suggérée.",
-      en: "An intimate evening of Quebec folk and acoustic song. Marie-Ève Trudel performs her original compositions inspired by Charlevoix. Free entry, suggested consumption.",
+      fr: "Soirée DJ au Bistro des Balcons avec planche de charcuteries d'un fournisseur de viande local.",
+      en: "DJ evening at Bistro des Balcons with charcuterie board from local meat supplier.",
     },
     category: "musique",
   },
   {
     _type: "event",
-    title: {
-      fr: "DJ set — Jeudi tropical",
-      en: "DJ set — Tropical Thursday",
-    },
-    slug: { current: "dj-set-jeudi-tropical" },
-    date: futureDate(5, 21, 0),
+    title: { fr: "Charlotte Brousseau au Bistro des Balcons", en: "Charlotte Brousseau at Bistro des Balcons" },
+    slug: { current: "charlotte-brousseau" },
+    date: "2026-03-14T20:00:00-04:00",
     description: {
-      fr: "DJ Rémi aux platines pour une soirée aux rythmes tropicaux et ensoleillés. Cocktails spéciaux et bières locales. Terrasse ouverte si la météo le permet!",
-      en: "DJ Rémi on the decks for an evening of tropical and sunny rhythms. Special cocktails and local beers. Terrace open weather permitting!",
+      fr: "Folk francophone avec une voix feutrée, la guitare classique et le piano.",
+      en: "Francophone folk with a velvety voice, classical guitar and piano.",
     },
     category: "musique",
   },
   {
     _type: "event",
-    title: {
-      fr: "Spectacle d'humour — Les Imprévus",
-      en: "Comedy show — Les Imprévus",
-    },
-    slug: { current: "spectacle-humour-les-imprevus" },
-    date: futureDate(10),
+    title: { fr: "Saint-Patrick au Bistro des Balcons", en: "St. Patrick's Day at Bistro des Balcons" },
+    slug: { current: "saint-patrick" },
+    date: "2026-03-17T17:00:00-04:00",
     description: {
-      fr: "La troupe d'improvisation Les Imprévus débarque au Bistro pour une soirée de rire garantie. Participation du public encouragée! 10$ à la porte.",
-      en: "The improv troupe Les Imprévus takes over the Bistro for a guaranteed night of laughs. Audience participation encouraged! $10 at the door.",
+      fr: "Célébration festive avec menu et boissons thématiques : pinte à 7.50$, Irish Car Bomb à 5$, Irish Stew.",
+      en: "Festive celebration with themed food and drinks: $7.50 pint, $5 Irish Car Bomb, Irish Stew.",
+    },
+    category: "communautaire",
+  },
+  {
+    _type: "event",
+    title: { fr: "Soirée Swing au Bistro des Balcons", en: "Swing Night at Bistro des Balcons" },
+    slug: { current: "soiree-swing-mars" },
+    date: "2026-03-18T19:00:00-04:00",
+    description: {
+      fr: "Soirée danse avec Geneviève Boily — chaque pas devient une célébration!",
+      en: "Dance evening with Geneviève Boily — every step becomes a celebration!",
     },
     category: "spectacle",
   },
   {
     _type: "event",
-    title: {
-      fr: "Marché des artisans locaux",
-      en: "Local artisans market",
-    },
-    slug: { current: "marche-artisans-locaux" },
-    date: futureDate(14, 10, 0),
-    endDate: futureDate(14, 17, 0),
+    title: { fr: "Sunset club avec CYR", en: "Sunset club with CYR" },
+    slug: { current: "sunset-club-cyr" },
+    date: "2026-03-19T19:00:00-04:00",
     description: {
-      fr: "Les artisans de Charlevoix s'installent aux Balcons pour une journée de découvertes! Bijoux, poterie, savons artisanaux, produits du terroir et bien plus. Entrée libre.",
-      en: "Charlevoix artisans set up at Les Balcons for a day of discovery! Jewelry, pottery, handmade soaps, local products and more. Free entry.",
-    },
-    category: "communautaire",
-  },
-  {
-    _type: "event",
-    title: {
-      fr: "Jam session — Micro ouvert",
-      en: "Jam session — Open mic",
-    },
-    slug: { current: "jam-session-micro-ouvert" },
-    date: futureDate(19, 20, 0),
-    description: {
-      fr: "Musiciens, poètes, humoristes : le micro est à vous! Inscriptions sur place dès 19h, spectacle à 20h. Ambiance décontractée et bienveillante.",
-      en: "Musicians, poets, comedians: the mic is yours! Sign up on site from 7pm, show at 8pm. Relaxed and welcoming atmosphere.",
+      fr: "DJ set de 19h à 22h+ avec CYR. Privatisation avant 19h.",
+      en: "DJ set from 7pm to 10pm+ with CYR. Private event before 7pm.",
     },
     category: "musique",
   },
   {
     _type: "event",
-    title: {
-      fr: "Soirée quiz & trivia",
-      en: "Quiz & trivia night",
-    },
-    slug: { current: "soiree-quiz-trivia" },
-    date: futureDate(24, 19, 30),
+    title: { fr: "La Fuite au Bistro des Balcons", en: "La Fuite at Bistro des Balcons" },
+    slug: { current: "la-fuite" },
+    date: "2026-03-20T20:00:00-04:00",
     description: {
-      fr: "Forme ton équipe (2-6 joueurs) et viens tester tes connaissances! Prix pour les gagnants, ambiance compétitive mais décontractée. Bières et bouchées disponibles.",
-      en: "Form your team (2-6 players) and come test your knowledge! Prizes for winners, competitive but relaxed atmosphere. Beers and bites available.",
-    },
-    category: "communautaire",
-  },
-
-  // === PAST EVENTS (should NOT display on the page) ===
-  {
-    _type: "event",
-    title: {
-      fr: "Concert — Les Bardes du Fleuve",
-      en: "Concert — Les Bardes du Fleuve",
-    },
-    slug: { current: "concert-bardes-du-fleuve" },
-    date: pastDate(7),
-    description: {
-      fr: "Un concert folk-rock mémorable avec Les Bardes du Fleuve.",
-      en: "A memorable folk-rock concert with Les Bardes du Fleuve.",
+      fr: "Groupe folk-rock indie — un mélange unique de folk et rock indie.",
+      en: "Indie folk-rock band — a unique blend of folk and indie rock.",
     },
     category: "musique",
   },
   {
     _type: "event",
-    title: {
-      fr: "Atelier de peinture communautaire",
-      en: "Community painting workshop",
-    },
-    slug: { current: "atelier-peinture-communautaire" },
-    date: pastDate(14, 14, 0),
+    title: { fr: "Les afters party du Cabaret Festif! - La finale", en: "Cabaret Festif! After Party - The Finale" },
+    slug: { current: "afters-cabaret-festif" },
+    date: "2026-03-21T22:30:00-04:00",
     description: {
-      fr: "Un atelier de peinture ouvert à tous dans la grande salle.",
-      en: "A painting workshop open to all in the main hall.",
+      fr: "After party GRATUIT! DJs RiRi & Foin (22h30-minuit), Mike Clay (minuit-2h).",
+      en: "FREE after party! DJs RiRi & Foin (10:30pm-midnight), Mike Clay (midnight-2am).",
     },
-    category: "communautaire",
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "Félixe au Bistro des Balcons", en: "Félixe at Bistro des Balcons" },
+    slug: { current: "felixe" },
+    date: "2026-03-27T20:00:00-04:00",
+    description: {
+      fr: "Musique sensible et actuelle, où les émotions prennent toute la place.",
+      en: "Sensitive and contemporary music where emotions take center stage.",
+    },
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "5@7 DJ au Bistro des Balcons - SLIM TONY", en: "5@7 DJ at Bistro des Balcons - SLIM TONY" },
+    slug: { current: "5a7-slim-tony" },
+    date: "2026-04-02T17:00:00-04:00",
+    description: {
+      fr: "DJ set avec SLIM TONY en partenariat avec Café Charlevoix.",
+      en: "DJ set with SLIM TONY in partnership with Café Charlevoix.",
+    },
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "BLAMM & Sandra Contour au Bistro des Balcons", en: "BLAMM & Sandra Contour at Bistro des Balcons" },
+    slug: { current: "blamm-sandra-contour" },
+    date: "2026-04-04T20:00:00-04:00",
+    description: {
+      fr: "Soirée double : BLAMM (solo) + Sandra Contour (duo) — folk et jazz New Orleans.",
+      en: "Double bill: BLAMM (solo) + Sandra Contour (duo) — folk and New Orleans jazz.",
+    },
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "Soirée Swing au Bistro des Balcons", en: "Swing Night at Bistro des Balcons" },
+    slug: { current: "soiree-swing-avril" },
+    date: "2026-04-15T19:00:00-04:00",
+    description: {
+      fr: "Soirée danse avec Geneviève Boily.",
+      en: "Dance evening with Geneviève Boily.",
+    },
+    category: "spectacle",
+  },
+  {
+    _type: "event",
+    title: { fr: "Roméo Rhubarbe au Bistro des Balcons", en: "Roméo Rhubarbe at Bistro des Balcons" },
+    slug: { current: "romeo-rhubarbe" },
+    date: "2026-04-17T20:00:00-04:00",
+    description: {
+      fr: "Sélections éclectiques et énergie contagieuse.",
+      en: "Eclectic selections and contagious energy.",
+    },
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "Fred Péloquin & Andrea Gozzi au Bistro des Balcons", en: "Fred Péloquin & Andrea Gozzi at Bistro des Balcons" },
+    slug: { current: "fred-peloquin-andrea-gozzi" },
+    date: "2026-05-01T20:00:00-04:00",
+    description: {
+      fr: "Duo folk-punk — un mélange unique de folk italiano et de punk.",
+      en: "Folk-punk duo — a unique blend of Italian folk and punk.",
+    },
+    category: "musique",
+  },
+  {
+    _type: "event",
+    title: { fr: "La Tête de l'Art : Cabaret légumes au Bistro des Balcons", en: "La Tête de l'Art: Vegetable Cabaret at Bistro des Balcons" },
+    slug: { current: "cabaret-legumes" },
+    date: "2026-05-15T20:00:00-04:00",
+    description: {
+      fr: "Cabaret de marionnettes, théâtre et numéros burlesques. Comédie absurde (16+).",
+      en: "Puppet cabaret, theater and burlesque acts. Absurdist comedy (16+).",
+    },
+    category: "spectacle",
+  },
+  {
+    _type: "event",
+    title: { fr: "Léa Jarry trio au Bistro des Balcons", en: "Léa Jarry trio at Bistro des Balcons" },
+    slug: { current: "lea-jarry-trio" },
+    date: "2026-06-13T20:00:00-04:00",
+    description: {
+      fr: "L'une des figures marquantes du new country francophone.",
+      en: "One of the prominent figures of French-speaking new country.",
+    },
+    category: "musique",
   },
 ];
 
 async function seed() {
-  console.log("Seeding events...");
+  console.log("Seeding real events...");
 
-  // Delete existing events
   const existing = await client.fetch('*[_type == "event"]._id');
   if (existing.length > 0) {
     console.log(`Deleting ${existing.length} existing events...`);
@@ -161,11 +194,10 @@ async function seed() {
     await tx.commit();
   }
 
-  // Create new ones
   const tx = client.transaction();
   events.forEach((e) => tx.create(e));
   await tx.commit();
-  console.log(`Created ${events.length} events (${events.filter((e) => !e.date.includes(new Date().getFullYear() + "")).length || events.length} total, some past).`);
+  console.log(`Created ${events.length} events.`);
   console.log("Done!");
 }
 
