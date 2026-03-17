@@ -7,8 +7,8 @@ export default defineConfig({
   name: "les-balcons",
   title: "Les Balcons — Auberge & Bistro culturel",
 
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || "placeholder",
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
+  projectId: "cx8ev1gh",
+  dataset: "production",
   basePath: "/studio",
 
   plugins: [structureTool(), visionTool({ defaultApiVersion: "2025-03-17" })],
