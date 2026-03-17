@@ -7,10 +7,8 @@
  *   import Navigation from '@/components/layout/Navigation';
  *   <Navigation currentPath="/" lang="fr" reservationUrl="https://beds24.com/..." />
  *
- * TODO: Replace the "LES BALCONS" text logo with a proper dark logo SVG variant.
- *       The current /logo.svg has fill #f7f5ed (light) which is intended for dark
- *       backgrounds. A dark variant (fill: var(--color-charcoal)) is needed for the
- *       beige navigation background.
+ * Uses /logo-dark.svg (green fill #056131) on beige background,
+ * and /logo.svg (beige fill #f7f5ed) in the dark mobile overlay.
  */
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -54,20 +52,24 @@ function buildNavLinks(lang: Lang): NavLink[] {
 // Sub-components
 // ---------------------------------------------------------------------------
 
-/** Text-based logo placeholder until a dark SVG variant is available. */
-function LogoPlaceholder({ size }: { size: "sm" | "md" }) {
+/** Logo component using the dark (green) SVG for beige backgrounds */
+function Logo({ variant = "dark", className }: { variant?: "dark" | "light"; className?: string }) {
+  const src = variant === "dark" ? "/logo-dark.svg" : "/logo.svg";
   return (
     <a
       href="/"
       aria-label="Les Balcons — Retour à l'accueil"
       className={[
-        "font-[family-name:var(--font-title)] font-extrabold",
-        "text-[var(--color-charcoal)] tracking-widest uppercase",
+        "inline-flex items-center",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)]",
-        size === "sm" ? "text-[14px]" : "text-[18px] 2xl:text-[22px]",
-      ].join(" ")}
+        className,
+      ].filter(Boolean).join(" ")}
     >
-      LES BALCONS
+      <img
+        src={src}
+        alt="Les Balcons"
+        className="h-full w-auto"
+      />
     </a>
   );
 }
@@ -193,9 +195,8 @@ export function Navigation({
         ].join(" ")}
       >
         {/* Logo */}
-        <div className="flex-shrink-0">
-          {/* TODO: swap with <img src="/logo-dark.svg" alt="Les Balcons" /> once a dark variant exists */}
-          <LogoPlaceholder size="md" />
+        <div className="flex-shrink-0 h-[52px] lg:h-[52px] 2xl:h-[73px]">
+          <Logo variant="dark" className="h-full" />
         </div>
 
         {/* Desktop nav */}
@@ -300,19 +301,9 @@ export function Navigation({
       >
         {/* Header row inside overlay */}
         <div className="flex items-center justify-between h-[90px] px-6">
-          {/* TODO: use a light logo variant here — /logo.svg (fill #f7f5ed) works on dark bg */}
-          <a
-            href="/"
-            aria-label="Les Balcons — Retour à l'accueil"
-            className={[
-              "font-[family-name:var(--font-title)] font-extrabold",
-              "text-[var(--color-beige-100)] tracking-widest uppercase text-[14px]",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-            ].join(" ")}
-            onClick={handleLinkClick}
-          >
-            LES BALCONS
-          </a>
+          <div className="h-[40px]" onClick={handleLinkClick}>
+            <Logo variant="light" className="h-full" />
+          </div>
 
           {/* Close button */}
           <button

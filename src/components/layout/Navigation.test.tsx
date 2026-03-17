@@ -30,9 +30,13 @@ describe('Navigation', () => {
       });
     });
 
-    it('displays "LES BALCONS" as the logo text', () => {
+    it('renders logo images with correct src', () => {
       render(<Navigation />);
-      expect(screen.getAllByText('LES BALCONS').length).toBeGreaterThan(0);
+      const logoImages = screen.getAllByAltText('Les Balcons');
+      expect(logoImages.length).toBeGreaterThan(0);
+      // At least one should be the dark variant for the nav bar
+      const srcs = logoImages.map((img) => img.getAttribute('src'));
+      expect(srcs).toContain('/logo-dark.svg');
     });
   });
 
