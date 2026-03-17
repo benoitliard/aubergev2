@@ -335,24 +335,17 @@ export const Footer: React.FC<FooterProps> = ({ lang = "fr" }) => {
       aria-label="Pied de page"
     >
       {/* ------------------------------------------------------------------ */}
-      {/* DESKTOP layout (≥1024px) — three columns                           */}
+      {/* DESKTOP layout (≥1024px)                                            */}
       {/* ------------------------------------------------------------------ */}
-      <div className="hidden lg:grid lg:grid-cols-3 lg:gap-12 px-24 pt-30 pb-8">
-        {/* Column 1 — Logo + copyright */}
-        <div className="flex flex-col justify-between gap-8">
-          <Logo className="w-full max-w-[523px]" />
-          <p
-            className={[
-              "text-[var(--color-beige-100)]",
-              "text-[length:var(--text-body-xs)] font-semibold",
-            ].join(" ")}
-          >
-            {t.copyright}
-          </p>
-        </div>
+      <div className="hidden lg:flex lg:flex-col px-24 pt-20 pb-8">
+        {/* Top section — 3 columns */}
+        <div className="grid grid-cols-[280px_1fr_280px] gap-12">
+          {/* Column 1 — Logo */}
+          <div className="flex flex-col">
+            <Logo className="w-full max-w-[523px]" />
+          </div>
 
-        {/* Column 2 — Nav pills + cancellation policy */}
-        <div className="flex flex-col justify-between gap-8">
+          {/* Column 2 — Nav pills */}
           <nav aria-label="Navigation secondaire">
             <ul className="flex flex-wrap gap-3">
               {t.navLinks.map((link) => (
@@ -364,50 +357,61 @@ export const Footer: React.FC<FooterProps> = ({ lang = "fr" }) => {
               ))}
             </ul>
           </nav>
+
+          {/* Column 3 — Contact + social */}
+          <div className="flex flex-col gap-8">
+            <address className="not-italic flex flex-col gap-2">
+              <span
+                className={[
+                  "text-[var(--color-beige-100)]",
+                  "text-[length:var(--text-body-xs)]",
+                ].join(" ")}
+              >
+                {t.address}
+              </span>
+              <a
+                href={t.phone.href}
+                className={[
+                  "text-[var(--color-beige-100)] font-bold",
+                  "text-[length:var(--text-body-xs)]",
+                  "underline underline-offset-2",
+                  "transition-opacity duration-200 hover:opacity-70",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
+                ].join(" ")}
+              >
+                {t.phone.display}
+              </a>
+              <a
+                href={t.email.href}
+                className={[
+                  "text-[var(--color-beige-100)] font-bold",
+                  "text-[length:var(--text-body-xs)]",
+                  "underline underline-offset-2",
+                  "transition-opacity duration-200 hover:opacity-70",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
+                ].join(" ")}
+              >
+                {t.email.display}
+              </a>
+            </address>
+
+            <SocialRow ariaLabels={t.socialAriaLabels} />
+          </div>
+        </div>
+
+        {/* Bottom row — copyright + policy links */}
+        <div className="mt-12 flex items-center justify-between border-t border-white/20 pt-8">
+          <p
+            className={[
+              "text-[var(--color-beige-100)]",
+              "text-[length:var(--text-body-xs)] font-semibold",
+            ].join(" ")}
+          >
+            {t.copyright}
+          </p>
           <PolicyLink href={t.cancellationPolicy.href}>
             {t.cancellationPolicy.label}
           </PolicyLink>
-        </div>
-
-        {/* Column 3 — Contact + social + privacy */}
-        <div className="flex flex-col justify-between gap-8">
-          <address className="not-italic flex flex-col gap-2">
-            <span
-              className={[
-                "text-[var(--color-beige-100)]",
-                "text-[length:var(--text-body-xs)]",
-              ].join(" ")}
-            >
-              {t.address}
-            </span>
-            <a
-              href={t.phone.href}
-              className={[
-                "text-[var(--color-beige-100)] font-bold",
-                "text-[length:var(--text-body-xs)]",
-                "underline underline-offset-2",
-                "transition-opacity duration-200 hover:opacity-70",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-              ].join(" ")}
-            >
-              {t.phone.display}
-            </a>
-            <a
-              href={t.email.href}
-              className={[
-                "text-[var(--color-beige-100)] font-bold",
-                "text-[length:var(--text-body-xs)]",
-                "underline underline-offset-2",
-                "transition-opacity duration-200 hover:opacity-70",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-beige-100)]",
-              ].join(" ")}
-            >
-              {t.email.display}
-            </a>
-          </address>
-
-          <SocialRow ariaLabels={t.socialAriaLabels} />
-
           <PolicyLink href={t.privacyPolicy.href}>
             {t.privacyPolicy.label}
           </PolicyLink>

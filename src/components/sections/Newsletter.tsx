@@ -137,33 +137,33 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
   return (
     <section
       aria-labelledby="newsletter-heading"
-      className="bg-[var(--color-beige-100)] px-4 py-12 desktop:px-24 desktop:py-16"
+      className="bg-[var(--color-beige-100)] px-4 py-12 desktop:px-[160px] desktop:py-[88px]"
     >
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-12">
-        {/* Logo */}
-        <img
-          src="/logo.svg"
-          alt="Les Balcons"
-          width={160}
-          height={32}
-          className="h-auto w-40"
-          aria-hidden="false"
-        />
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10">
+        {/* Mascot + text block */}
+        <div className="flex flex-col items-center gap-6">
+          {/* Mascot icon */}
+          <img
+            src="/mascot.svg"
+            alt=""
+            width={160}
+            height={80}
+            className="h-auto w-40"
+            aria-hidden="true"
+          />
 
-        {/* Text block */}
-        <div className="flex flex-col items-center gap-3 text-center">
-          <p
-            className="font-body text-body-md text-[var(--color-charcoal)]"
-            aria-label="Section"
-          >
-            Abonnement à l'infolettre
-          </p>
-          <h2
-            id="newsletter-heading"
-            className="font-title text-h4 font-extrabold leading-[1.2] text-[var(--color-charcoal)]"
-          >
-            Restez au courant des nouveautés de l'Auberge.
-          </h2>
+          {/* Text block */}
+          <div className="flex max-w-[848px] flex-col items-center gap-2 text-center">
+            <p className="font-[family-name:var(--font-body)] text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
+              Abonnement à l'infolettre
+            </p>
+            <h2
+              id="newsletter-heading"
+              className="font-[family-name:var(--font-title)] text-[length:var(--text-h4)] font-extrabold leading-[1.2] text-[var(--color-charcoal)]"
+            >
+              Restez au courant des nouveautés de l'Auberge.
+            </h2>
+          </div>
         </div>
 
         {/* Form */}
@@ -171,7 +171,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
           <p
             role="status"
             aria-live="polite"
-            className="font-body text-body-md text-[var(--color-green-dark)]"
+            className="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-green-dark)]"
           >
             Merci pour votre abonnement !
           </p>
@@ -186,12 +186,12 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
             <div className="flex flex-1 flex-col gap-2">
               <label
                 htmlFor="newsletter-email"
-                className="font-body text-body-lg text-[var(--color-charcoal)]"
+                className="font-[family-name:var(--font-body)] text-[length:var(--text-body-lg)] font-extrabold text-[var(--color-charcoal)]"
               >
                 Adresse courriel{" "}
                 <span
                   aria-label="obligatoire"
-                  className="font-extrabold text-[var(--color-green-dark)]"
+                  className="text-[var(--color-green-dark)]"
                 >
                   *
                 </span>
@@ -212,7 +212,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
                 autoComplete="email"
                 className={[
                   "w-full rounded-full border bg-white px-6 py-4",
-                  "font-body text-body-md text-[var(--color-charcoal)]",
+                  "font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-green-dark)]",
                   "placeholder:text-[var(--color-green-dark)]",
                   "outline-none transition-shadow",
                   "focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)] focus-visible:ring-offset-2",
@@ -227,7 +227,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
                 <p
                   id="newsletter-email-error"
                   role="alert"
-                  className="font-body text-body-xs text-red-600"
+                  className="font-[family-name:var(--font-body)] text-[length:var(--text-body-xs)] text-red-600"
                 >
                   {errors.email}
                 </p>
@@ -238,12 +238,12 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
             <div className="flex flex-1 flex-col gap-2">
               <label
                 htmlFor="newsletter-type"
-                className="font-body text-body-lg text-[var(--color-charcoal)]"
+                className="font-[family-name:var(--font-body)] text-[length:var(--text-body-lg)] font-extrabold text-[var(--color-charcoal)]"
               >
                 Type de communication{" "}
                 <span
                   aria-label="obligatoire"
-                  className="font-extrabold text-[var(--color-green-dark)]"
+                  className="text-[var(--color-green-dark)]"
                 >
                   *
                 </span>
@@ -259,7 +259,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
                   className={[
                     "w-full appearance-none rounded-full border border-[var(--color-green-dark)]",
                     "bg-white px-6 py-4 pr-12",
-                    "font-body text-body-md text-[var(--color-charcoal)]",
+                    "font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-green-dark)]",
                     "outline-none transition-shadow",
                     "focus-visible:ring-2 focus-visible:ring-[var(--color-green-dark)] focus-visible:ring-offset-2",
                   ].join(" ")}
@@ -285,7 +285,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
               type="submit"
               className={[
                 "shrink-0 rounded-full bg-[var(--color-charcoal)] px-8 py-4",
-                "font-body text-body-md font-extrabold text-[var(--color-beige-100)]",
+                "font-[family-name:var(--font-title)] text-[length:var(--text-body-sm)] font-extrabold text-[var(--color-beige-100)]",
                 "transition-opacity hover:opacity-80",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-charcoal)] focus-visible:ring-offset-2",
                 "active:opacity-70",
