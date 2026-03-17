@@ -1,0 +1,27 @@
+---
+export const prerender = true;
+import SanityStudio from "../components/SanityStudio";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les Balcons — Studio</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <style>
+      html, body, #sanity-studio {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sanity-studio">
+      <SanityStudio client:only="react" />
+    </div>
+  </body>
+</html>

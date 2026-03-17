@@ -8,10 +8,9 @@ export default defineConfig({
   integrations: [
     react(),
     sanity({
-      projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-      dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
+      projectId: "cx8ev1gh",
+      dataset: "production",
       useCdn: false,
-      studioBasePath: "/studio",
     }),
   ],
 
@@ -20,15 +19,10 @@ export default defineConfig({
   },
 
   adapter: cloudflare(),
-  output: "static",
 
   i18n: {
     defaultLocale: "fr",
     locales: ["fr", "en"],
-    routing: {
-      prefixDefaultLocale: true,
-      redirectToDefaultLocale: true,
-    },
     fallback: {
       en: "fr",
     },
