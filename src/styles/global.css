@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Display font — used for the "LES BALCONS" hero title */
+@font-face {
+  font-family: "Extra Chunk Please";
+  src: url("/fonts/ExtraChunkPlease-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* === Colors by universe === */
 
