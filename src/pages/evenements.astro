@@ -1,5 +1,6 @@
 ---
 export const prerender = true;
+import { sanityClient } from "sanity:client";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Navigation } from "../components/layout/Navigation";
 import { Footer } from "../components/layout/Footer";
@@ -16,91 +17,168 @@ const PARTNERS = [
   { name: "Desjardins", logo: "/partners/desjardins.png", url: "https://www.desjardins.com" },
 ];
 
-const EVENT_TYPES = [
-  {
-    title: "Spectacles live",
-    text: "Musique locale et régionale tous les weekends. Rock, folk, jazz, chanson québécoise — une programmation variée pour toutes les oreilles.",
-  },
-  {
-    title: "DJ sets",
-    text: "Les jeudis soirs, le Bistro se transforme en piste de danse avec des DJ sets électro, house et bien plus encore.",
-  },
-  {
-    title: "Événements communautaires",
-    text: "Vernissages, lancements de livres, soirées thématiques — le Bistro est un carrefour culturel ancré dans la communauté de Baie-Saint-Paul.",
-  },
-  {
-    title: "Événements spontanés",
-    text: "La vie aux Balcons est pleine de surprises. Garde un œil sur notre page Facebook pour ne rien manquer des événements de dernière minute.",
-  },
-];
+// Fetch only upcoming events (date >= now)
+const now = new Date().toISOString();
+const events = await sanityClient.fetch(
+  `*[_type == "event" && date >= $now] | order(date asc) {
+    "title": title.fr,
+    "description": description.fr,
+    "slug": slug.current,
+    date,
+    endDate,
+    category,
+    facebookEventUrl,
+    ticketUrl,
+    "imageUrl": image.asset->url
+  }`,
+  { now }
+);
+
+const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
+  musique: { label: "Musique", color: "var(--color-purple-500)" },
+  spectacle: { label: "Spectacle", color: "var(--color-yellow-500)" },
+  communautaire: { label: "Communautaire", color: "var(--color-green-light)" },
+  autre: { label: "Autre", color: "var(--color-beige-100)" },
+};
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("fr-CA", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+}
+
+function formatTime(dateStr: string): string {
+  return new Date(dateStr).toLocaleTimeString("fr-CA", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
 ---
 
-<BaseLayout title="Événements" description="Événements et programmation culturelle aux Balcons — Spectacles, DJ sets, soirées communautaires à Baie-Saint-Paul." lang="fr">
+<BaseLayout title="Événements" description="Programmation culturelle des Balcons — Spectacles, DJ sets, marchés et événements communautaires à Baie-Saint-Paul." lang="fr">
   <Navigation client:load currentPath="/evenements" lang="fr" reservationUrl={RESERVATION_URL} />
 
   <main>
-    {/* Hero section — purple */}
+    {/* Hero — purple */}
     <section class="bg-[var(--color-purple-500)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
       <div class="mx-auto max-w-[1102px]">
         <h1 class="font-[family-name:var(--font-title)] font-extrabold text-4xl desktop:text-[length:var(--text-h1)] leading-[1.1] text-[var(--color-charcoal)] mb-6">
           Événements
         </h1>
         <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)] max-w-[800px]">
-          Le Bistro des Balcons est bien plus qu'un bar — c'est un lieu de vie culturelle. Spectacles, DJ sets, soirées communautaires et événements spontanés rythment la vie du lieu à l'année. Consulte notre page Facebook pour la programmation complète et à jour.
+          Lieu de vie bien ancré dans sa communauté, le Bistro te propose une programmation culturelle variée — spectacles, DJ sets, marchés artisanaux et événements spontanés.
         </p>
       </div>
     </section>
 
-    {/* Types d'événements */}
+    {/* Events list from Sanity */}
     <section class="bg-[var(--color-beige-100)] px-4 py-16 desktop:px-24 desktop:py-[88px]">
-      <div class="mx-auto max-w-[1102px] flex flex-col gap-12">
-        <div class="flex flex-col gap-4 max-w-[800px]">
-          <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)]">
-            Notre programmation
-          </h2>
-          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
-            Chaque semaine, le Bistro s'anime avec une programmation culturelle variée. Voici ce que tu peux retrouver au fil de l'année.
-          </p>
-        </div>
+      <div class="mx-auto max-w-[1102px]">
+        <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-charcoal)] mb-10">
+          Prochains événements
+        </h2>
 
-        <div class="grid gap-6 sm:grid-cols-2">
-          {EVENT_TYPES.map((event) => (
-            <div class="rounded-[32px] bg-[var(--color-green-light)] p-8 flex flex-col gap-3">
-              <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)]">
-                {event.title}
-              </h3>
-              <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]">
-                {event.text}
-              </p>
-            </div>
-          ))}
-        </div>
+        {events.length > 0 ? (
+          <div class="flex flex-col gap-6">
+            {events.map((event: any) => {
+              const cat = CATEGORY_LABELS[event.category] || CATEGORY_LABELS.autre;
+              return (
+                <article class="flex flex-col lg:flex-row gap-6 rounded-[32px] bg-white p-6 lg:p-8">
+                  {/* Date block */}
+                  <div class="flex shrink-0 flex-col items-center justify-center rounded-2xl bg-[var(--color-green-dark)] px-6 py-4 text-center lg:w-[140px]">
+                    <span class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1] text-[var(--color-beige-100)]">
+                      {new Date(event.date).getDate()}
+                    </span>
+                    <span class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-beige-100)] uppercase">
+                      {new Date(event.date).toLocaleDateString("fr-CA", { month: "short" })}
+                    </span>
+                  </div>
 
-        {/* CMS notice */}
-        <div class="rounded-[32px] bg-[var(--color-purple-500)]/20 border border-[var(--color-purple-500)]/30 p-8">
-          <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/70">
-            Note : Les événements dynamiques seront gérés via Sanity CMS et affichés automatiquement ici prochainement.
-          </p>
-        </div>
+                  {/* Content */}
+                  <div class="flex flex-1 flex-col gap-3">
+                    <span
+                      class="inline-flex w-fit items-center rounded-full px-3 py-1 font-[family-name:var(--font-title)] font-extrabold text-[13px] text-[var(--color-charcoal)]"
+                      style={`background-color: ${cat.color}`}
+                    >
+                      {cat.label}
+                    </span>
+
+                    <h3 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] leading-[1.3] text-[var(--color-charcoal)]">
+                      {event.title}
+                    </h3>
+
+                    <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-sm)] text-[var(--color-charcoal)]/70">
+                      {formatDate(event.date)} · {formatTime(event.date)}
+                      {event.endDate && ` — ${formatTime(event.endDate)}`}
+                    </p>
+
+                    <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] leading-[1.5] text-[var(--color-charcoal)]">
+                      {event.description}
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 mt-2">
+                      {event.facebookEventUrl && (
+                        <a
+                          href={event.facebookEventUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-green-dark)] underline hover:opacity-70"
+                        >
+                          Voir sur Facebook
+                        </a>
+                      )}
+                      {event.ticketUrl && (
+                        <a
+                          href={event.ticketUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center rounded-full bg-[var(--color-charcoal)] px-5 py-2 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-beige-100)] hover:opacity-80"
+                        >
+                          Acheter des billets
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div class="rounded-[32px] bg-white p-12 text-center">
+            <p class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-lg)] text-[var(--color-charcoal)] mb-4">
+              Aucun événement à venir pour le moment
+            </p>
+            <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-charcoal)]/70 mb-6">
+              Suis-nous sur Facebook pour être au courant des prochains événements!
+            </p>
+            <a
+              href="https://www.facebook.com/aubergedesbalcons"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center rounded-full bg-[var(--color-purple-500)] px-6 py-3 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
+            >
+              Suivre sur Facebook
+            </a>
+          </div>
+        )}
       </div>
     </section>
 
-    {/* CTA Facebook */}
+    {/* CTA — propose a show */}
     <section class="bg-[var(--color-charcoal)] px-4 py-16 desktop:px-24 desktop:py-20 text-center">
-      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-6">
-        Voir la programmation complète
+      <h2 class="font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-h4)] leading-[1.2] text-[var(--color-beige-100)] mb-4">
+        Tu veux proposer un spectacle?
       </h2>
       <p class="font-[family-name:var(--font-body)] text-[length:var(--text-body-md)] text-[var(--color-beige-100)]/80 mb-8 mx-auto max-w-[600px]">
-        Tous nos événements sont publiés en temps réel sur notre page Facebook. Suis-nous pour ne rien manquer!
+        Musiciens, humoristes, artistes — on cherche toujours de nouveaux talents pour notre programmation.
       </p>
       <a
-        href="https://www.facebook.com/aubergedesbalcons"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="mailto:info@lesbalcons.ca"
         class="inline-flex items-center justify-center rounded-full bg-[var(--color-purple-500)] px-8 py-4 font-[family-name:var(--font-title)] font-extrabold text-[length:var(--text-body-sm)] text-[var(--color-charcoal)] transition-opacity hover:opacity-80"
       >
-        Voir les événements sur Facebook
+        Proposer un spectacle
       </a>
     </section>
 
