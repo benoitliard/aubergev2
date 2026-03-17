@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  /* === Colors by universe === */
+
+  /* Les Balcons (brand) */
+  --color-green-dark: #056131;
+
+  /* L'Auberge */
+  --color-green-light: #d4df90;
+
+  /* Le Bistro */
+  --color-purple-500: #d78dff;
+
+  /* Accent */
+  --color-yellow-500: #ffb601;
+
+  /* Neutrals */
+  --color-beige-100: #f7f5ed;
+  --color-charcoal: #1d1c17;
+
+  /* === Typography === */
+  --font-title: "Bricolage Grotesque", sans-serif;
+  --font-body: "Bricolage Grotesque 24pt SemiCondensed", sans-serif;
+
+  /* Font sizes */
+  --text-h1: 128px;
+  --text-h2: 64px;
+  --text-h4: 48px;
+  --text-h5: 40px;
+  --text-body-xl: 40px;
+  --text-body-lg: 24px;
+  --text-body-md: 20px;
+  --text-body-sm: 18px;
+  --text-body-xs: 16px;
+
+  /* === Layout === */
+  --breakpoint-mobile: 375px;
+  --breakpoint-desktop: 1440px;
+  --breakpoint-wide: 1920px;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background-color: var(--color-beige-100);
+    font-size: var(--text-body-md);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-title);
+    font-weight: 800;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.1;
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+    line-height: 1.2;
+  }
+
+  h5 {
+    font-size: var(--text-h5);
+    line-height: 1.15;
+  }
+}

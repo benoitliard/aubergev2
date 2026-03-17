@@ -1,0 +1,51 @@
+{
+  "name": "les-balcons",
+  "version": "0.1.0",
+  "description": "Les Balcons — Auberge & Bistro culturel",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.1.2",
+    "@astrojs/react": "^5.0.0",
+    "@sanity/astro": "^3.3.1",
+    "@sanity/client": "^7.17.0",
+    "@sanity/vision": "^5.16.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^6.0.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^5.16.0",
+    "tailwindcss": "^4.2.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^5.0.1",
+    "@storybook/addon-a11y": "^10.2.19",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/react-vite": "^10.2.19",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "chromatic": "^15.3.0",
+    "storybook": "^10.2.19",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,19 @@
+import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+import { visionTool } from "@sanity/vision";
+import { schemaTypes } from "./src/sanity/schemas";
+
+export default defineConfig({
+  name: "les-balcons",
+  title: "Les Balcons — Auberge & Bistro culturel",
+
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || "placeholder",
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
+  basePath: "/studio",
+
+  plugins: [structureTool(), visionTool({ defaultApiVersion: "2025-03-17" })],
+
+  schema: {
+    types: schemaTypes,
+  },
+});
