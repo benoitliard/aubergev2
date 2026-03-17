@@ -179,7 +179,7 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="flex w-full flex-col gap-4 desktop:flex-row desktop:items-end"
+            className="flex w-full flex-col gap-4 lg:flex-row lg:items-end"
             aria-label="Formulaire d'abonnement à l'infolettre"
           >
             {/* Email field */}
@@ -284,12 +284,12 @@ export default function Newsletter({ onSubmit }: NewsletterProps) {
             <button
               type="submit"
               className={[
-                "w-full desktop:w-auto shrink-0 rounded-full bg-[var(--color-charcoal)] px-8 py-4",
+                "w-full lg:w-auto shrink-0 rounded-full bg-[var(--color-charcoal)] px-8 py-4",
                 "font-[family-name:var(--font-title)] text-[length:var(--text-body-sm)] font-extrabold text-[var(--color-beige-100)]",
                 "transition-opacity hover:opacity-80",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-charcoal)] focus-visible:ring-offset-2",
                 "active:opacity-70",
-                "desktop:self-end",
+                "lg:self-end",
               ].join(" ")}
             >
               Je m'abonne à l'infolettre
