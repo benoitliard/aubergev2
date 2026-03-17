@@ -10,9 +10,12 @@
  * import Hero from '@/components/sections/Hero';
  *
  * <Hero heroImage="/images/hero.jpg" />
- * <Hero heroImage="/images/hero.jpg" bookingUrl="https://beds24.com/..." />
+ * <Hero heroImage="/images/hero.jpg" showBooking />
+ * <Hero heroImage="/images/hero.jpg" showBooking lang="en" />
  * ```
  */
+
+import { BookingWidget } from "../ui/BookingWidget";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -23,8 +26,10 @@ export interface HeroProps {
   heroImage: string;
   /** Alt text for the hero image. */
   heroImageAlt?: string;
-  /** Beds24 iframe booking widget URL. When omitted the widget is hidden. */
-  bookingUrl?: string;
+  /** Show the Beds24 booking widget. Defaults to true. */
+  showBooking?: boolean;
+  /** Language for the booking widget. */
+  lang?: "fr" | "en";
 }
 
 // ---------------------------------------------------------------------------
@@ -79,7 +84,8 @@ function ArchMask() {
 export default function Hero({
   heroImage,
   heroImageAlt = "L'Auberge Les Balcons à Baie-Saint-Paul",
-  bookingUrl,
+  showBooking = true,
+  lang = "fr",
 }: HeroProps) {
   return (
     <section aria-label="Les Balcons" className="w-full bg-[var(--color-green-dark)]">
@@ -127,17 +133,8 @@ export default function Hero({
           magnifique région de Charlevoix.
         </p>
 
-        {/* Booking widget (Beds24 iframe) */}
-        {bookingUrl && (
-          <div className="mx-auto w-full max-w-[900px]">
-            <iframe
-              src={bookingUrl}
-              title="Réservation"
-              className="h-[107px] w-full rounded-lg border-0 bg-white"
-              loading="lazy"
-            />
-          </div>
-        )}
+        {/* Booking widget (Beds24 form) */}
+        {showBooking && <BookingWidget lang={lang} />}
       </div>
 
       {/* ── Hero photo with arch mask ──────────────────────────────────── */}

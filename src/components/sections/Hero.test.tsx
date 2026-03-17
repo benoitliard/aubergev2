@@ -41,17 +41,21 @@ describe('Hero', () => {
   });
 
   describe('booking widget', () => {
-    it('renders the iframe when bookingUrl is provided', () => {
-      render(<Hero heroImage="/images/hero.jpg" bookingUrl="https://beds24.com/booking" />);
-      const iframe = document.querySelector('iframe');
-      expect(iframe).toBeInTheDocument();
-      expect(iframe).toHaveAttribute('src', 'https://beds24.com/booking');
-      expect(iframe).toHaveAttribute('title', 'Réservation');
+    it('renders the booking form by default', () => {
+      render(<Hero heroImage="/images/hero.jpg" />);
+      const form = document.querySelector('form[action*="beds24"]');
+      expect(form).toBeInTheDocument();
     });
 
-    it('does not render the iframe when bookingUrl is omitted', () => {
-      render(<Hero heroImage="/images/hero.jpg" />);
-      expect(document.querySelector('iframe')).not.toBeInTheDocument();
+    it('hides the booking form when showBooking is false', () => {
+      render(<Hero heroImage="/images/hero.jpg" showBooking={false} />);
+      expect(document.querySelector('form[action*="beds24"]')).not.toBeInTheDocument();
+    });
+
+    it('passes lang to the booking widget', () => {
+      render(<Hero heroImage="/images/hero.jpg" lang="en" />);
+      const langInput = document.querySelector('input[name="lang"][value="en"]');
+      expect(langInput).toBeInTheDocument();
     });
   });
 

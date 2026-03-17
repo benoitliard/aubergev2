@@ -116,7 +116,7 @@ const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=we
       client:load
       heroImage="/images/hero.jpg"
       heroImageAlt="Les Balcons Inn in Baie-Saint-Paul"
-      bookingUrl="https://beds24.com/booking2.php?propid=47579&referer=web&lang=en"
+      lang="en"
     />
 
     <IntroText
@@ -155,7 +155,7 @@ const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=we
     <Newsletter client:load />
   </main>
 
-  <PartnersBar partners={PARTNERS} />
   <Footer client:load lang="en" />
+  <PartnersBar partners={PARTNERS} />
   <FloatingCTA label="Book now" href={RESERVATION_URL} />
 </BaseLayout>

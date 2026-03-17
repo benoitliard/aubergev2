@@ -122,7 +122,7 @@ const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=we
     <Hero
       client:load
       heroImage="/images/hero.jpg"
-      bookingUrl="https://beds24.com/booking2.php?propid=47579&referer=web"
+      lang="fr"
     />
 
     {/* 2. Intro text */}
@@ -163,11 +163,11 @@ const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=we
     <Newsletter client:load />
   </main>
 
-  {/* Partners bar */}
-  <PartnersBar partners={PARTNERS} />
-
   {/* Footer */}
   <Footer client:load lang="fr" />
+
+  {/* Partners bar — below footer */}
+  <PartnersBar partners={PARTNERS} />
 
   {/* Floating CTA */}
   <FloatingCTA href={RESERVATION_URL} />
