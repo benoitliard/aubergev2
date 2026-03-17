@@ -261,11 +261,11 @@ const PolicyLink: React.FC<{ href: string; children: React.ReactNode }> = ({
 
 const Logo: React.FC<{ className?: string }> = ({ className = "" }) => (
   <img
-    src="/logo.svg"
+    src="/logo-footer.svg"
     alt="Les Balcons"
     className={className}
-    width={523}
-    height={102}
+    width={636}
+    height={317}
     loading="lazy"
     decoding="async"
   />
