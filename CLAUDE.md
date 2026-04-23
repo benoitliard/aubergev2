@@ -9,8 +9,8 @@
 Three color universes:
 - **Les Balcons (brand)**: `#056131` (dark green)
 - **L'Auberge**: `#d4df90` (light green)
-- **Le Bistro**: `#d78dff` (purple)
-- **Accent**: `#ffb601` (yellow)
+- **Le Bistro**: `#ff93ff` (purple)
+- **Accent**: `#ff9425` (yellow)
 - **Background**: `#f7f5ed` (beige)
 - **Text**: `#1d1c17` (charcoal)
 

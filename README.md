@@ -25,8 +25,8 @@ Website rebuild for Les Balcons (formerly Auberge des Balcons), located in Baie-
 |-------|-----|-------|
 | `green-dark` | `#056131` | Les Balcons brand — header, hero, footer, CTAs |
 | `green-light` | `#d4df90` | L'Auberge sections |
-| `purple-500` | `#d78dff` | Le Bistro sections |
-| `yellow-500` | `#ffb601` | Accent |
+| `purple-500` | `#ff93ff` | Le Bistro sections |
+| `yellow-500` | `#ff9425` | Accent |
 | `beige-100` | `#f7f5ed` | Page background |
 | `charcoal` | `#1d1c17` | Text |
 
