@@ -10,7 +10,7 @@ const meta: Meta<typeof FloatingCTA> = {
     docs: {
       description: {
         component:
-          "Bouton flottant fixe en bas à droite de l'écran. Fond jaune (#ffb601), texte charcoal, forme pill. Sur mobile, s'étend en bas de l'écran. Utilisé comme raccourci de réservation persistant.",
+          "Bouton flottant fixe en bas à droite de l'écran. Fond jaune (#ff9425), texte charcoal, forme pill. Sur mobile, s'étend en bas de l'écran. Utilisé comme raccourci de réservation persistant.",
       },
     },
   },
