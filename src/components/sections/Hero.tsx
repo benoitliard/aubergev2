@@ -22,10 +22,14 @@ import { BookingWidget } from "../ui/BookingWidget";
 // ---------------------------------------------------------------------------
 
 export interface HeroProps {
-  /** URL of the hero photo shown through the arch mask. */
+  /** URL of the hero photo shown through the arch mask. Also used as poster when a video is provided. */
   heroImage: string;
   /** Alt text for the hero image. */
   heroImageAlt?: string;
+  /** Optional URL of a hero video. When provided, replaces the image (autoplay, muted, looped). */
+  heroVideo?: string | null;
+  /** MIME type of the hero video (e.g. "video/mp4"). Defaults to "video/mp4". */
+  heroVideoMime?: string | null;
   /** Show the Beds24 booking widget. Defaults to true. */
   showBooking?: boolean;
   /** Language for the booking widget. */
@@ -84,6 +88,8 @@ function ArchMask() {
 export default function Hero({
   heroImage,
   heroImageAlt = "L'Auberge Les Balcons à Baie-Saint-Paul",
+  heroVideo,
+  heroVideoMime,
   showBooking = true,
   lang = "fr",
 }: HeroProps) {
@@ -137,13 +143,34 @@ export default function Hero({
         {showBooking && <BookingWidget lang={lang} />}
       </div>
 
-      {/* ── Hero photo with arch mask ──────────────────────────────────── */}
+      {/* ── Hero photo or video with arch mask ─────────────────────────── */}
       <div className="relative w-full" style={{ aspectRatio: "1936 / 1038" }}>
-        <img
-          src={heroImage}
-          alt={heroImageAlt}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        {heroVideo ? (
+          <video
+            src={heroVideo}
+            poster={heroImage}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={heroImageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src={heroVideo} type={heroVideoMime ?? "video/mp4"} />
+            <img
+              src={heroImage}
+              alt={heroImageAlt}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </video>
+        ) : (
+          <img
+            src={heroImage}
+            alt={heroImageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         <ArchMask />
       </div>
     </section>

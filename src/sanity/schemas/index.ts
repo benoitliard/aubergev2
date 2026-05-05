@@ -1,3 +1,4 @@
+import { homePageType } from "./homePageType";
 import { eventType } from "./eventType";
 import { blogPostType } from "./blogPostType";
 import { bistroMenuType, menuItemType } from "./bistroMenuType";
@@ -7,6 +8,7 @@ import { faqType } from "./faqType";
 import { galleryType } from "./galleryType";
 
 export const schemaTypes = [
+  homePageType,
   eventType,
   blogPostType,
   bistroMenuType,
