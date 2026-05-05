@@ -52,9 +52,9 @@ function buildNavLinks(lang: Lang): NavLink[] {
 // Sub-components
 // ---------------------------------------------------------------------------
 
-/** Logo component using the dark (green) SVG for beige backgrounds */
+/** Logo component — wordmark on desktop, compact mascot on mobile (avoids overlap with the mobile "Je réserve" + hamburger). */
 function Logo({ variant = "dark", className }: { variant?: "dark" | "light"; className?: string }) {
-  const src = variant === "dark" ? "/logo-dark.svg" : "/logo.svg";
+  const wordmarkSrc = variant === "dark" ? "/logo-dark.svg" : "/logo.svg";
   return (
     <a
       href="/"
@@ -66,9 +66,14 @@ function Logo({ variant = "dark", className }: { variant?: "dark" | "light"; cla
       ].filter(Boolean).join(" ")}
     >
       <img
-        src={src}
+        src="/mascot.svg"
         alt="Les Balcons"
-        className="h-full w-auto"
+        className="h-full w-auto lg:hidden"
+      />
+      <img
+        src={wordmarkSrc}
+        alt="Les Balcons"
+        className="h-full w-auto hidden lg:block"
       />
     </a>
   );
