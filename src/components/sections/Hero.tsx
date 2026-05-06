@@ -49,7 +49,7 @@ function ArchMask() {
   // The outer rectangle is drawn clockwise and the inner mascot path is also
   // clockwise. With fill-rule="evenodd", the overlapping region (the mascot
   // shape) becomes transparent, revealing the photo underneath.
-  const outerRect = "M0,-5 H161 V85 H0 Z";
+  const outerRect = "M0,-5 H161 V80 H0 Z";
   const mascotCutout = [
     "M160.439,40.002 C160.996,29.591 157.327,18.988 149.419,11.081",
     "C134.645,-3.693 110.47,-3.693 95.696,11.081",
@@ -68,7 +68,7 @@ function ArchMask() {
     <svg
       aria-hidden="true"
       className="absolute inset-0 z-10 h-full w-full pointer-events-none"
-      viewBox="0 -5 161 90"
+      viewBox="0 -5 161 85"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -144,7 +144,8 @@ export default function Hero({
       </div>
 
       {/* ── Hero photo or video with arch mask ─────────────────────────── */}
-      <div className="relative w-full" style={{ aspectRatio: "1936 / 1038" }}>
+      {/* aspectRatio matches the SVG mask viewBox (161 / 85 ≈ 1.894) so the arch baseline lands exactly at the bottom edge — no green strip below. */}
+      <div className="relative w-full" style={{ aspectRatio: "161 / 85" }}>
         {heroVideo ? (
           <video
             src={heroVideo}
