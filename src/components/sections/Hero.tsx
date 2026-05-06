@@ -22,10 +22,14 @@ import { BookingWidget } from "../ui/BookingWidget";
 // ---------------------------------------------------------------------------
 
 export interface HeroProps {
-  /** URL of the hero photo shown through the arch mask. */
+  /** URL of the hero photo shown through the arch mask. Also used as poster when a video is provided. */
   heroImage: string;
   /** Alt text for the hero image. */
   heroImageAlt?: string;
+  /** Optional URL of a hero video. When provided, replaces the image (autoplay, muted, looped). */
+  heroVideo?: string | null;
+  /** MIME type of the hero video (e.g. "video/mp4"). Defaults to "video/mp4". */
+  heroVideoMime?: string | null;
   /** Show the Beds24 booking widget. Defaults to true. */
   showBooking?: boolean;
   /** Language for the booking widget. */
@@ -45,26 +49,23 @@ function ArchMask() {
   // The outer rectangle is drawn clockwise and the inner mascot path is also
   // clockwise. With fill-rule="evenodd", the overlapping region (the mascot
   // shape) becomes transparent, revealing the photo underneath.
-  const outerRect = "M0,-5 H161 V85 H0 Z";
+  const outerRect = "M0,-5 H161 V80 H0 Z";
+  // Side edges go straight down to the baseline (no rounded corners) so the
+  // green frame doesn't intrude on the photo at the bottom-left/right.
   const mascotCutout = [
     "M160.439,40.002 C160.996,29.591 157.327,18.988 149.419,11.081",
     "C134.645,-3.693 110.47,-3.693 95.696,11.081",
     "L80.189,26.588 L64.944,11.343",
     "C50.619,-2.98 27.493,-3.862 12.433,9.683",
     "C5.318,16.081 1.239,24.531 0.171,33.285",
-    "H0.164 V33.34",
-    "C-0.134,35.799 0.049,64.51 0.131,75.641",
-    "C0.149,78.06 2.114,80.01 4.536,80.01",
-    "H156.096",
-    "C158.528,80.01 160.501,78.038 160.501,75.608",
-    "V40.007 H160.441 L160.439,40.002 Z",
+    "L0,33.285 L0,80 L161,80 L161,40.002 Z",
   ].join(" ");
 
   return (
     <svg
       aria-hidden="true"
       className="absolute inset-0 z-10 h-full w-full pointer-events-none"
-      viewBox="0 -5 161 90"
+      viewBox="0 -5 161 85"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -84,6 +85,8 @@ function ArchMask() {
 export default function Hero({
   heroImage,
   heroImageAlt = "L'Auberge Les Balcons à Baie-Saint-Paul",
+  heroVideo,
+  heroVideoMime,
   showBooking = true,
   lang = "fr",
 }: HeroProps) {
@@ -137,13 +140,35 @@ export default function Hero({
         {showBooking && <BookingWidget lang={lang} />}
       </div>
 
-      {/* ── Hero photo with arch mask ──────────────────────────────────── */}
-      <div className="relative w-full" style={{ aspectRatio: "1936 / 1038" }}>
-        <img
-          src={heroImage}
-          alt={heroImageAlt}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      {/* ── Hero photo or video with arch mask ─────────────────────────── */}
+      {/* aspectRatio matches the SVG mask viewBox (161 / 85 ≈ 1.894) so the arch baseline lands exactly at the bottom edge — no green strip below. */}
+      <div className="relative w-full" style={{ aspectRatio: "161 / 85" }}>
+        {heroVideo ? (
+          <video
+            src={heroVideo}
+            poster={heroImage}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={heroImageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src={heroVideo} type={heroVideoMime ?? "video/mp4"} />
+            <img
+              src={heroImage}
+              alt={heroImageAlt}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </video>
+        ) : (
+          <img
+            src={heroImage}
+            alt={heroImageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         <ArchMask />
       </div>
     </section>

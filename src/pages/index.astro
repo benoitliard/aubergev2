@@ -43,6 +43,20 @@ const TESTIMONIALS_FROM_SANITY = sanityTestimonials.map((t: any) => ({
   author: t.name,
 }));
 
+const homePage = await sanityClient.fetch(
+  `*[_type == "homePage" && _id == "homePage"][0]{
+    "heroImageUrl": heroImage.asset->url,
+    "heroImageAlt": heroImageAlt.fr,
+    "heroVideoUrl": heroVideo.asset->url,
+    "heroVideoMime": heroVideo.asset->mimeType
+  }`
+);
+
+const HERO_IMAGE = homePage?.heroImageUrl ?? "/images/hero.jpg";
+const HERO_IMAGE_ALT = homePage?.heroImageAlt ?? "L'Auberge Les Balcons à Baie-Saint-Paul";
+const HERO_VIDEO = homePage?.heroVideoUrl ?? null;
+const HERO_VIDEO_MIME = homePage?.heroVideoMime ?? null;
+
 // ---------------------------------------------------------------------------
 // Static data
 // ---------------------------------------------------------------------------
@@ -135,10 +149,13 @@ const RESERVATION_URL = "https://beds24.com/booking2.php?propid=47579&referer=we
   />
 
   <main>
-    {/* 1. Hero — green section + arch photo */}
+    {/* 1. Hero — green section + arch photo or video */}
     <Hero
       client:load
-      heroImage="/images/hero.jpg"
+      heroImage={HERO_IMAGE}
+      heroImageAlt={HERO_IMAGE_ALT}
+      heroVideo={HERO_VIDEO}
+      heroVideoMime={HERO_VIDEO_MIME}
       lang="fr"
     />
 

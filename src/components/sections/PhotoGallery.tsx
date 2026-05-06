@@ -15,6 +15,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowButton } from "../ui/ArrowButton";
+import { useSwipe } from "../../hooks/useSwipe";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -90,6 +91,8 @@ export default function PhotoGallery({ images, className = "" }: PhotoGalleryPro
     if (!isAtEnd) setCurrentIndex((prev) => prev + 1);
   }
 
+  const swipe = useSwipe({ onSwipeLeft: handleNext, onSwipeRight: handlePrev });
+
   return (
     <section
       aria-label="Galerie de photos"
@@ -102,7 +105,11 @@ export default function PhotoGallery({ images, className = "" }: PhotoGalleryPro
         .join(" ")}
     >
       {/* Photos track */}
-      <div ref={trackRef} className="overflow-hidden">
+      <div
+        ref={trackRef}
+        className="overflow-hidden touch-pan-y"
+        {...swipe}
+      >
         <div
           className="flex gap-6 transition-transform duration-300 ease-in-out"
           style={{ transform: `translateX(-${offset}px)` }}
