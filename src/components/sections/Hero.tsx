@@ -50,18 +50,15 @@ function ArchMask() {
   // clockwise. With fill-rule="evenodd", the overlapping region (the mascot
   // shape) becomes transparent, revealing the photo underneath.
   const outerRect = "M0,-5 H161 V80 H0 Z";
+  // Side edges go straight down to the baseline (no rounded corners) so the
+  // green frame doesn't intrude on the photo at the bottom-left/right.
   const mascotCutout = [
     "M160.439,40.002 C160.996,29.591 157.327,18.988 149.419,11.081",
     "C134.645,-3.693 110.47,-3.693 95.696,11.081",
     "L80.189,26.588 L64.944,11.343",
     "C50.619,-2.98 27.493,-3.862 12.433,9.683",
     "C5.318,16.081 1.239,24.531 0.171,33.285",
-    "H0.164 V33.34",
-    "C-0.134,35.799 0.049,64.51 0.131,75.641",
-    "C0.149,78.06 2.114,80.01 4.536,80.01",
-    "H156.096",
-    "C158.528,80.01 160.501,78.038 160.501,75.608",
-    "V40.007 H160.441 L160.439,40.002 Z",
+    "L0,33.285 L0,80 L161,80 L161,40.002 Z",
   ].join(" ");
 
   return (
